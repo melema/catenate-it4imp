@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:RetryHandlerConfigurations xsi:schemaLocation="http://www.gema.de/ESB/RetryHandler/RetryHandlerConfigurations RetryHandlerConfigurations.xsd" xmlns:tns="http://www.gema.de/ESB/RetryHandler/RetryHandlerConfigurations" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<tns:RetryHandlerConfiguration>
+		<!--tns:queueName>MatchWork001.q.MatchWorkMetaInfo.BE</tns:queueName-->
+		<tns:queueName>@TO_BE_SET@</tns:queueName>
+		<tns:processes>
+			<!--tns:name>Application/Service/MatchWork001/Operations/MatchWorkMetaInfo/Interface/MatchWorkMetaInfo_SOAP.process</tns:name-->
+			<tns:name>@TO_BE_SET@</tns:name>
+		</tns:processes>
+	</tns:RetryHandlerConfiguration>
+</tns:RetryHandlerConfigurations>

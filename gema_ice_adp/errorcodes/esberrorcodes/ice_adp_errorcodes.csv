@@ -1,0 +1,6 @@
+errorCode;errorType;errorMessage
+ICE000007;System;ICE Web Service IAC9361 cannot be reached
+ICE000008;System;Request timed out
+ICE000009;System;Request failed on ICE side. ICE Message Severity = 99
+ICE000010;Validation;Validation Error, check data_mapping
+ICE000011;Validation;Invalid ICE Work code. ICE Message Severity = 10

@@ -1,0 +1,5 @@
+#TIBCO Designer Preferences
+#Fri Nov 14 08:48:27 CET 2008
+gema_esb_core.jar=@LIB_DIR@/gema_esb_core.jar
+ICE_InterfacesLibrary.projlib=@LIB_DIR@/InterfacesLibrary.projlib
+ICE_ESBCoreLibrary.projlib=@LIB_DIR@/ESBCoreLibrary.projlib

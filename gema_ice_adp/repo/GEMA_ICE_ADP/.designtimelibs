@@ -1,0 +1,5 @@
+#Design time libraries
+#Format: #=File Alias=Description
+#Thu Sep 14 19:04:19 CEST 2017
+1=ICE_InterfacesLibrary.projlib\=
+0=ICE_ESBCoreLibrary.projlib\=

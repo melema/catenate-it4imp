@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:util="java://de.gema.esb.xpath.Util" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="com/tibco/pe/commands" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns3="http://www.tibco.com/pe/WriteToLogActivitySchema">
+    <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" schemaLocation="/Interfaces/ESB/Schema/Common/BaseTypes-001.xsd"/>
+    <pd:name>Application/Startup/Startup.process</pd:name>
+    <pd:description>$Id$</pd:description>
+    <pd:startName>onStartup</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="onStartup">
+        <pd:type>com.tibco.pe.core.OnStartupEventSource</pd:type>
+        <pd:resourceType>ae.activities.onStartup</pd:resourceType>
+        <pd:x>41</pd:x>
+        <pd:y>183</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1185</pd:endX>
+    <pd:endY>192</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1377595753880</pd:targetNamespace>
+    <pd:activity name="Init">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>301</pd:x>
+        <pd:y>185</pd:y>
+        <config>
+            <element>
+                <xsd:element name="Init">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element ref="pfx:traceIdentifier"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <Init>
+                <pfx:traceIdentifier>
+                    <pfx:bpId>
+                        <xsl:value-of select="util:createUUID()"/>
+                    </pfx:bpId>
+                    <pfx:bpName>
+                        <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/AppInfo/AppName, &quot;_Startup&quot;)"/>
+                    </pfx:bpName>
+                    <pfx:boId>
+                        <pfx:name>
+                            <xsl:value-of select="&quot;Application&quot;"/>
+                        </pfx:name>
+                        <pfx:value>
+                            <xsl:value-of select="$_globalVariables/ns:GlobalVariables/AppInfo/AppName"/>
+                        </pfx:value>
+                    </pfx:boId>
+                    <pfx:callingApp>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/AppInfo/AppName"/>
+                    </pfx:callingApp>
+                    <pfx:initiator>
+                        <xsl:value-of select="$_globalVariables/ns:GlobalVariables/AppInfo/AppName"/>
+                    </pfx:initiator>
+                </pfx:traceIdentifier>
+            </Init>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TraceInfo">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>396</pd:x>
+        <pd:y>186</pd:y>
+        <config>
+            <processName>/Core/Tracing/TraceInfo.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+                <message>
+                    <xsl:value-of select="concat(&quot;Starting  &quot;,$_globalVariables/ns:GlobalVariables/Domain,&quot;_&quot;,$_globalVariables/ns:GlobalVariables/AppInfo/AppName,&quot;_&quot;,$_globalVariables/ns:GlobalVariables/AppInfo/EngineNo,&quot;. ..&quot;)"/>
+                </message>
+                <serviceName>
+                    <xsl:value-of select="&quot;Startup&quot;"/>
+                </serviceName>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="LoadErrorCodes">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>511</pd:x>
+        <pd:y>185</pd:y>
+        <config>
+            <processName>/Core/Startup/ErrorCodes/LoadErrorCodes.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TraceSuccess">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1051</pd:x>
+        <pd:y>193</pd:y>
+        <config>
+            <processName>/Core/Tracing/TraceSuccess.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+                <message>
+                    <xsl:value-of select="concat(&quot;Started  &quot;,$_globalVariables/ns:GlobalVariables/Domain,&quot;_&quot;,$_globalVariables/ns:GlobalVariables/AppInfo/AppName,&quot;_&quot;,$_globalVariables/ns:GlobalVariables/AppInfo/EngineNo,&quot; successfully!&quot;)"/>
+                </message>
+                <serviceName>
+                    <xsl:value-of select="&quot;Startup&quot;"/>
+                </serviceName>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>398</pd:x>
+        <pd:y>374</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Shutdown">
+        <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
+        <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
+        <pd:x>695</pd:x>
+        <pd:y>378</pd:y>
+        <config>
+            <command>Shutdown</command>
+        </config>
+        <pd:inputBindings>
+            <ns2:input/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="RemoveRetryHandlerLockFiles">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>638</pd:x>
+        <pd:y>271</pd:y>
+        <config>
+            <processName>/Core/RetryHandling/Processes/RemoveRetryHandlerLockFiles.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="LoadSERetryHandlerConfigurations">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>771</pd:x>
+        <pd:y>190</pd:y>
+        <config>
+            <processName>/Core/RetryHandling/Processes/LoadSERetryHandlerConfigurations.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="LoadBERetryHandlerConfigurations">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>887</pd:x>
+        <pd:y>119</pd:y>
+        <config>
+            <processName>/Core/RetryHandling/Processes/LoadBERetryHandlerConfigurations.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Init/Init/pfx:traceIdentifier"/>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Log Global Variables">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>141</pd:x>
+        <pd:y>192</pd:y>
+        <config>
+            <processName>/Core/Logging/Log Global Variables.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="LogFatal">
+        <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+        <pd:resourceType>ae.activities.log</pd:resourceType>
+        <pd:x>528</pd:x>
+        <pd:y>373</pd:y>
+        <config>
+            <role>fatal</role>
+        </config>
+        <pd:inputBindings>
+            <ns3:ActivityInput>
+                <message>
+                    <xsl:value-of select="tib:render-xml($_error/ns1:ErrorReport,1,1)"/>
+                </message>
+                <msgCode>
+                    <xsl:value-of select="&quot;FATAL&quot;"/>
+                </msgCode>
+            </ns3:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>onStartup</pd:from>
+        <pd:to>Log Global Variables</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Init</pd:from>
+        <pd:to>TraceInfo</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TraceInfo</pd:from>
+        <pd:to>LoadErrorCodes</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LoadErrorCodes</pd:from>
+        <pd:to>RemoveRetryHandlerLockFiles</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TraceSuccess</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RemoveRetryHandlerLockFiles</pd:from>
+        <pd:to>LoadSERetryHandlerConfigurations</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LoadSERetryHandlerConfigurations</pd:from>
+        <pd:to>LoadBERetryHandlerConfigurations</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LoadBERetryHandlerConfigurations</pd:from>
+        <pd:to>TraceSuccess</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Log Global Variables</pd:from>
+        <pd:to>Init</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>LogFatal</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LogFatal</pd:from>
+        <pd:to>Shutdown</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:label>
+        <pd:name>Label</pd:name>
+        <pd:description>Extent this process with other startup processes</pd:description>
+        <pd:x>207</pd:x>
+        <pd:y>35</pd:y>
+        <pd:width>355</pd:width>
+        <pd:height>33</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+</pd:ProcessDefinition>

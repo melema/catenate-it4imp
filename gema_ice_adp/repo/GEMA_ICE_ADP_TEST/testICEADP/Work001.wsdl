@@ -1,0 +1,2018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by TIBCO WSDL-->
+<wsdl:definitions xmlns:ns6="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001" xmlns:jms="http://www.tibco.com/namespaces/ws/2004/soap/binding/JMS" xmlns:ns5="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkRequest-001" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" xmlns:jndi="http://www.tibco.com/namespaces/ws/2004/soap/apis/jndi" xmlns:ns0="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:ns2="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" xmlns:ns1="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns4="http://www.gema.de/ESB/Schema/MEGA/common-types-001" xmlns:ns3="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" name="Untitled" targetNamespace="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl">
+    <wsdl:types>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:swres="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001" xmlns:prim="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" xmlns:swreq="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkRequest-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wd="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" targetNamespace="http://www.gema.de/ESB/Service/ICE/Work-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001"/>
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001"/>
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkRequest-001"/>
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001"/>
+            <xsd:annotation>
+                <xsd:documentation>
+			$Id$
+
+			History of Changes:
+			Vers.	Date					Author					Comment
+			====	==========		===========		===================================================
+			1.0		2014-02-13			Markus Stülp		Initial version
+		</xsd:documentation>
+            </xsd:annotation>
+            <xsd:element name="CreateSkeletonWorkRequest">
+                <xsd:annotation>
+                    <xsd:documentation>SOAP Request Element to create skeleton work</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="swreq:work">
+                            <xsd:annotation>
+                                <xsd:documentation>E1-Interface MAX/ICE - Work Data</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="xsdVersion" fixed="1" use="required" type="xsd:int"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CreateSkeletonWorkResponse">
+                <xsd:annotation>
+                    <xsd:documentation>SOAP Response Element of create skeleton work</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="swres:createdWork" minOccurs="0"/>
+                        <xsd:element ref="swres:matchedWork" minOccurs="0"/>
+                        <xsd:element ref="swres:status"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="xsdVersion" fixed="1" use="required" type="xsd:int"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetWorkDetailsRequest">
+                <xsd:annotation>
+                    <xsd:documentation>SOAP Request Element to retrieve details for multiple works</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="wd:workDetails">
+                            <xsd:annotation>
+                                <xsd:documentation>C2-Interface ICE/MEGA</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetWorkDetailsResponse">
+                <xsd:annotation>
+                    <xsd:documentation>SOAP Response Element containing work details</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="wd:workDetails">
+                            <xsd:annotation>
+                                <xsd:documentation>C2-Interface ICE/MEGA</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" xmlns:ct="http://www.gema.de/ESB/Schema/MEGA/common-types-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/MEGA/common-types-001"/>
+            <xsd:annotation>
+                <xsd:documentation>
+		
+		Revision: $Id: c2.xsd,v 1.8 2014/03/17 09:18:40 hschukat Exp $
+		
+        *******************************************************************************
+        **                                                                                          	** 
+        ** NOTE THIS CHANGE HISTORY IS USED TO DOCUMENT		**
+        ** CHANGES TO THE XML SCHEMA. THIS CHANGE HISTORY	**
+        ** SHOULD BE REMOVED ONCE THE FINAL VERSION OF		**
+        ** THE ICD IS PUBLISHED.  														**
+        **																								**
+        *******************************************************************************
+        **                            CHANGE HISTORY										**
+        *******************************************************************************
+		$Log: c2.xsd,v $
+		Revision 1.8  2014/03/17 09:18:40  hschukat
+		Changed comment to comments sequence.
+
+		Revision 1.7  2014/03/13 13:32:38  vnovak
+		Changed the type of key from simple to complex string.
+		
+		Revision 1.6  2014/02/27 10:41:43  vnovak
+		Adapted societyKeys to conventions in C1.
+		
+		Revision 1.5  2014/02/18 10:21:15  vnovak
+		Changed ips/ip to interestedParties/interestedParty. Changed workDetails to workStatusDetails. Moved role/roleCode/source to attributes of interestedParty (same as C1). Changed firstName/lastName to Part element like in C1.
+		
+		Revision 1.4  2014/02/17 14:31:56  vnovak
+		Added CALL_FAILED to errorCode.
+		
+		Revision 1.3  2014/01/29 11:55:47  vnovak
+		Added Version Attribute.
+		
+		Revision 1.2  2014/01/27 11:45:37  vnovak
+		PublisherType for Publisher.
+		
+		Revision 1.1  2014/01/17 11:17:06  pkuehn
+		new structure
+		
+		Revision 1.3  2013/11/21 11:18:46  vnovak
+		Added cvs log to all xsds for traceability.
+		
+
+      </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType name="errorCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OK"/>
+                    <xsd:enumeration value="NOT_FOUND"/>
+                    <xsd:enumeration value="INVALID_IWK"/>
+                    <xsd:enumeration value="CALL_FAILED"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:element name="workDetails">
+                <xsd:annotation>
+                    <xsd:documentation>C2-Interface ICE/MEGA</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="workDetail" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="status" minOccurs="0">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="errorCode" type="ns2:errorCodeType"/>
+                                                <xsd:element name="errorMessage" type="xsd:string" minOccurs="0"/>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="work" minOccurs="0">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="workStatusDetails">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="registrationStatus" type="ct:RegistrationStatusType" minOccurs="0"/>
+                                                            <xsd:element name="distributility" type="ct:DistributilityType" minOccurs="0"/>
+                                                            <xsd:element name="iceStatus" type="ct:IceStatusType"/>
+                                                            <xsd:element name="iceStatusDesc" type="xsd:string"/>
+                                                            <xsd:element name="comments" minOccurs="0">
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence maxOccurs="unbounded">
+                                                                        <xsd:element name="comment" type="xsd:string"/>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="societyKeys" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="key" maxOccurs="unbounded">
+                                                                <xsd:complexType>
+                                                                    <xsd:simpleContent>
+                                                                        <xsd:extension base="xsd:string">
+                                                                            <xsd:attribute name="cisac" use="required" type="xsd:string"/>
+                                                                            <xsd:attribute name="society" use="required" type="ct:SocietyType"/>
+                                                                        </xsd:extension>
+                                                                    </xsd:simpleContent>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="interestedParties" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="interestedParty" maxOccurs="unbounded">
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="part" maxOccurs="unbounded">
+                                                                            <xsd:complexType>
+                                                                                <xsd:simpleContent>
+                                                                                    <xsd:extension base="xsd:string">
+                                                                                        <xsd:attribute name="type" use="required" type="ct:PartType"/>
+                                                                                    </xsd:extension>
+                                                                                </xsd:simpleContent>
+                                                                            </xsd:complexType>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="ipBaseNumber" type="xsd:string" minOccurs="0"/>
+                                                                        <xsd:element name="ipNameNumber" type="xsd:string" minOccurs="0"/>
+                                                                        <xsd:element name="iceIpBaseKey" type="xsd:string" minOccurs="0"/>
+                                                                        <xsd:element name="iceIpNameKey" type="xsd:string" minOccurs="0"/>
+                                                                        <xsd:element name="societyIpNumbers" minOccurs="0">
+                                                                            <xsd:complexType>
+                                                                                <xsd:sequence>
+                                                                                    <xsd:element name="societyIpNumber" minOccurs="0" maxOccurs="unbounded">
+                                                                                        <xsd:complexType>
+                                                                                            <xsd:sequence>
+                                                                                                <xsd:element name="cisac" type="xsd:string"/>
+                                                                                                <xsd:element name="name" type="xsd:string"/>
+                                                                                                <xsd:element name="ipNumber" type="xsd:integer"/>
+                                                                                            </xsd:sequence>
+                                                                                        </xsd:complexType>
+                                                                                    </xsd:element>
+                                                                                </xsd:sequence>
+                                                                            </xsd:complexType>
+                                                                        </xsd:element>
+                                                                    </xsd:sequence>
+                                                                    <xsd:attribute name="roleCode" use="required" type="ct:InterestedPartyRoleCodeType"/>
+                                                                    <xsd:attribute name="source" use="required" type="ct:SourceNameType"/>
+                                                                    <xsd:attribute name="type" use="required" type="ct:InterestedPartyType"/>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="publishers" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="publisher" maxOccurs="unbounded">
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="type" type="ct:PublisherType"/>
+                                                                        <xsd:element name="name" type="xsd:string"/>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="repertoires" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="repertoire" maxOccurs="unbounded">
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="id" type="xsd:string"/>
+                                                                        <xsd:element name="name" type="xsd:string"/>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                                <xsd:attribute name="iceWorkKey" use="required" type="ct:IceWorkKeyType"/>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="xsdVersion" fixed="1" use="required" type="xsd:int"/>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:prim="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:base="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" targetNamespace="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" version="0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001"/>
+            <xsd:annotation>
+                <xsd:documentation>
+			$Id$
+
+			History of Changes:
+			Vers.	Date					Author					Comment
+			====	==========		===========		===================================================
+			0.1		2013-08-19			Andre Genser		Initial version
+			0.2		2015-02-12			Andre Genser		Added Result Details
+		</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType name="BICType">
+                <xsd:annotation>
+                    <xsd:documentation>BIC (SEPA)</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="BOIDType">
+                <xsd:annotation>
+                    <xsd:documentation>Type for Business Object Id</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="name" type="prim:StringMax32">
+                        <xsd:annotation>
+                            <xsd:documentation>Name of the BusinessObject, e.g. CustomerId</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="value" type="prim:StringMax100">
+                        <xsd:annotation>
+                            <xsd:documentation>Value of the Customerid</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="BPIDType">
+                <xsd:restriction base="prim:StringMax80"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="BPNameType">
+                <xsd:restriction base="prim:StringMax100"/>
+            </xsd:simpleType>
+            <xsd:complexType name="BusinessExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>Application/Business-level exceptions  results from the unsuccessful logical outcome of a request.  This may be due to the entity being in an invalid state Application/business-level exceptions require significantly more data to properly define the cause of the error</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexContent>
+                    <xsd:extension base="base:ESBException"/>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:simpleType name="CallingAppType">
+                <xsd:restriction base="prim:StringMax30"/>
+            </xsd:simpleType>
+            <xsd:complexType name="ControllObjectType">
+                <xsd:annotation>
+                    <xsd:documentation>The ControlObject contains elments which controls the implementaion of an interfaces, like the backen.d timeout</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="timeOut_s" type="prim:IntMax8" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>The Service Consumer overwrite the timeout of the backend call within ESB</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="transactionId" type="prim:StringMax80" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>In case backend system provides request or transactionId, service consumer can set this. Normally it is used to detect duplicatas.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="CountryCode2CharType">
+                <xsd:annotation>
+                    <xsd:documentation>2 char country code</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="2"/>
+                    <xsd:pattern value="[A-Z]{2}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="CountryCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>ISO 3166-1 alpha-2 country code</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z]{2}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="CurrencyType">
+                <xsd:annotation>
+                    <xsd:documentation>3 character ISO Currency Code</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="prim:String3">
+                    <xsd:length value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="ESBException" abstract="true">
+                <xsd:annotation>
+                    <xsd:documentation>Base ESB exceptinos. All other ESB exceptions has inheritf from this.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="errorDetails" type="base:ErrorDetailsType">
+                        <xsd:annotation>
+                            <xsd:documentation>Standard ErrorDetails</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="ErrorApplicationType">
+                <xsd:restriction base="prim:StringMax64"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ErrorCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z]{3}\d{6}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="ErrorDetailsType">
+                <xsd:annotation>
+                    <xsd:documentation>Standard ErrorDetails element, which is derviced by all other ESB Exceptions</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="errorCode">
+                        <xsd:annotation>
+                            <xsd:documentation>A unique error code. The format of the error
+code is "[three digit System]xxxxxx", i.e. the 
+followed by a zero-padded unique number. Each backend has its own number cycle, to easily detect the system which causes the problem within ESB.
+The number is taken from a centrally
+administered error code excel sheet  which is stored as csv. For example ICE000001 could indicate a connection problem with ICE.
+
+</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="base:ErrorCodeType">
+                                <xsd:pattern value="[A-Z]{3}\d{6}"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="errorType" nillable="true" type="base:ErrorTypeType">
+                        <xsd:annotation>
+                            <xsd:documentation>The type of error: Validation, Business, System</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorSystem" nillable="true" type="base:ErrorSystemType">
+                        <xsd:annotation>
+                            <xsd:documentation>The Unix Machine where error appears</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorMessage" type="base:ErrorMessageType">
+                        <xsd:annotation>
+                            <xsd:documentation>A short message describing the error. It is a constatnt error message for each errorCode.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorInformation" nillable="true" type="base:ErrorInformationType">
+                        <xsd:annotation>
+                            <xsd:documentation>A longer text describing the cause of the error
+and ways to fix the error. It contains generic information like affected customerid.
+</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorApplication" nillable="true" type="base:ErrorApplicationType">
+                        <xsd:annotation>
+                            <xsd:documentation>The application that is reporting the error, for example ICE</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorTimestamp" nillable="true" type="xsd:dateTime">
+                        <xsd:annotation>
+                            <xsd:documentation>The date and time when the error occurred.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorSubsystem" nillable="true" type="base:ErrorSubsystemType">
+                        <xsd:annotation>
+                            <xsd:documentation>The BusinessWorks Application that causes the problem.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="errorClass" nillable="true" type="prim:StringMax2000" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>The BusinessWorks errorr Class, filled from Job._errorClass</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="ErrorInformationType">
+                <xsd:restriction base="prim:StringMax400"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ErrorMessageType">
+                <xsd:restriction base="prim:StringMax200"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ErrorSubsystemType">
+                <xsd:restriction base="prim:StringMax64"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ErrorSystemType">
+                <xsd:restriction base="prim:StringMax64"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ErrorTypeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Validation"/>
+                    <xsd:enumeration value="Business"/>
+                    <xsd:enumeration value="System"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="GenderType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="male"/>
+                    <xsd:enumeration value="female"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="IBANType">
+                <xsd:annotation>
+                    <xsd:documentation>IBAN (SEPA)</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="InitiatorType">
+                <xsd:restriction base="prim:StringMax30"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="LanguageCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>ISO 639-1 languare code (Upper Case)</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z]{2}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="ResultDetailsType">
+                <xsd:sequence>
+                    <xsd:element name="status" type="base:StatusType"/>
+                    <xsd:element ref="base:errorDetails" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="StatusType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Success"/>
+                    <xsd:enumeration value="Error"/>
+                    <xsd:enumeration value="Warning"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="SystemExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>System Exceptions are caused by the malfunction of the system.  This may include system software, hardware failures, network failures, failed access to a point application or resource.   These types of exceptions may require system support depending on its nature</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexContent>
+                    <xsd:extension base="base:ESBException"/>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:complexType name="TraceIdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>The TracedIdentifier is used to implemented a business procsess monitoring. A number of services rather its operations are involved in one business process. For this the same bpIp, bpName has to be used.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="bpId" type="base:BPIDType">
+                        <xsd:annotation>
+                            <xsd:documentation>Unique-Id (GUID) for each business request used to trace the business request through all participating applications; thus, must be unique across all front end applications connected to ESB.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="bpName" type="base:BPNameType">
+                        <xsd:annotation>
+                            <xsd:documentation>Name of the business process associated with the request</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="boId" type="base:BOIDType" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Identifier for the Business-Object associated with the request (depends on type of business process; e.g. customer’s ID)</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="callingApp" type="base:CallingAppType">
+                        <xsd:annotation>
+                            <xsd:documentation>Name of the application that calls EAI (immediate caller).</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="initiator" type="base:InitiatorType">
+                        <xsd:annotation>
+                            <xsd:documentation>Identifier of the original initiator of the business request</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ValidationExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>Validation exceptions are caused by invalid data sent to or required by the service.  This results in a data validation exception.  It may be possible for the user to fix the data and restart their operation if the user was the source of the data.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexContent>
+                    <xsd:extension base="base:ESBException"/>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:element name="businessException" type="base:BusinessExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>results from the unsuccessful logical outcome of a request.  This may be due to the entity being in an invalid state Application/business-level exceptions require significantly more data to properly define the cause of the error</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="controllObject" type="base:ControllObjectType"/>
+            <xsd:element name="errorDetails" type="base:ErrorDetailsType"/>
+            <xsd:element name="resultDetails" type="base:ResultDetailsType"/>
+            <xsd:element name="systemException" type="base:SystemExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>System Exceptions are caused by the malfunction of the system.  This may include system software, hardware failures, network failures, failed access to a point application or resource.   These types of exceptions may require system support depending on its nature</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="traceIdentifier" type="base:TraceIdentifierType"/>
+            <xsd:element name="validationException" type="base:ValidationExceptionType">
+                <xsd:annotation>
+                    <xsd:documentation>Validation exceptions are caused by invalid data sent to or required by the service.  This results in a data validation exception.  It may be possible for the user to fix the data and restart their operation if the user was the source of the data.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:prim="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" version="0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <annotation>
+                <documentation>
+			$Id$
+
+			History of Changes:
+			Vers.	Date					Author					Comment
+			====	==========		===========		===================================================
+			1.0		2013-08-19			Andre Genser		Initial version
+			1.1		2014-02-19			Jegan Subramani		StringIntMax11 simpletype added.
+		</documentation>
+            </annotation>
+            <simpleType name="Int0..1">
+                <restriction base="xsd:integer">
+                    <pattern value="[0-1]"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int0..10">
+                <restriction base="xsd:integer">
+                    <pattern value="[0-9]|10"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int1">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int1..2">
+                <restriction base="xsd:integer">
+                    <pattern value="[1-2]"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int10">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{10}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int12">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{12}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int14">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{14}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int15">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{15}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int2">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{2}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int4">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{4}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int5">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{5}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int7">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{7}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="Int8">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{8}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax10">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,10}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax12">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,12}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax6">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,6}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax7">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,7}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax8">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,8}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="IntMax9">
+                <restriction base="xsd:integer">
+                    <pattern value="\d{1,9}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax11">
+                <restriction base="xsd:integer">
+                    <totalDigits value="11"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax2">
+                <restriction base="xsd:integer">
+                    <totalDigits value="2"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax4">
+                <restriction base="xsd:integer">
+                    <totalDigits value="4"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax6">
+                <restriction base="xsd:integer">
+                    <totalDigits value="6"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax8">
+                <restriction base="xsd:integer">
+                    <totalDigits value="8"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="NumberMax9">
+                <restriction base="xsd:integer">
+                    <totalDigits value="9"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="String1">
+                <restriction base="xsd:string">
+                    <length value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="String3">
+                <restriction base="xsd:string">
+                    <length value="3"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="String4">
+                <restriction base="xsd:string">
+                    <minLength value="4"/>
+                    <maxLength value="4"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="String5">
+                <restriction base="xsd:string">
+                    <minLength value="5"/>
+                    <maxLength value="5"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringInt12">
+                <restriction base="xsd:string">
+                    <pattern value="\d{12}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringInt14">
+                <restriction base="xsd:string">
+                    <pattern value="\d{14}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringInt5">
+                <restriction base="xsd:string">
+                    <pattern value="\d{5}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax10">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,10}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax11">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,11}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax16">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,16}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax4">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,4}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax5">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,5}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax6">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,6}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax8">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,8}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringIntMax9">
+                <restriction base="xsd:string">
+                    <pattern value="\d{1,9}"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax0">
+                <restriction base="xsd:string">
+                    <minLength value="0"/>
+                    <maxLength value="0"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax10">
+                <restriction base="xsd:string">
+                    <maxLength value="10"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax100">
+                <restriction base="xsd:string">
+                    <maxLength value="100"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax11">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="11"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax12">
+                <restriction base="xsd:string">
+                    <maxLength value="12"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax128">
+                <restriction base="xsd:string">
+                    <maxLength value="128"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax13">
+                <restriction base="xsd:string">
+                    <maxLength value="13"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax1300">
+                <restriction base="xsd:string">
+                    <maxLength value="1300"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax14">
+                <restriction base="xsd:string">
+                    <maxLength value="14"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax15">
+                <restriction base="xsd:string">
+                    <maxLength value="15"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax150">
+                <restriction base="xsd:string">
+                    <maxLength value="150"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax16">
+                <restriction base="xsd:string">
+                    <maxLength value="16"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax18">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="18"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax2">
+                <restriction base="xsd:string">
+                    <maxLength value="2"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax20">
+                <restriction base="xsd:string">
+                    <maxLength value="20"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax200">
+                <restriction base="xsd:string">
+                    <maxLength value="200"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax2000">
+                <restriction base="xsd:string">
+                    <maxLength value="2000"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax24">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="24"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax25">
+                <restriction base="xsd:string">
+                    <maxLength value="25"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax255">
+                <restriction base="xsd:string">
+                    <maxLength value="255"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax256">
+                <restriction base="xsd:string">
+                    <maxLength value="256"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax26">
+                <restriction base="xsd:string">
+                    <maxLength value="26"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax260">
+                <restriction base="xsd:string">
+                    <maxLength value="260"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax27">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="27"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax3">
+                <restriction base="xsd:string">
+                    <maxLength value="3"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax30">
+                <restriction base="xsd:string">
+                    <maxLength value="30"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax300">
+                <restriction base="xsd:string">
+                    <maxLength value="300"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax32">
+                <restriction base="xsd:string">
+                    <maxLength value="32"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax34">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="34"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax35">
+                <restriction base="xsd:string">
+                    <maxLength value="35"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax4">
+                <restriction base="xsd:string">
+                    <maxLength value="4"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax40">
+                <restriction base="xsd:string">
+                    <maxLength value="40"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax400">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="400"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax45">
+                <restriction base="xsd:string">
+                    <maxLength value="45"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax5">
+                <restriction base="xsd:string">
+                    <maxLength value="5"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax50">
+                <restriction base="xsd:string">
+                    <maxLength value="50"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax500">
+                <restriction base="xsd:string">
+                    <maxLength value="500"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax512">
+                <restriction base="xsd:string">
+                    <maxLength value="512"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax6">
+                <restriction base="xsd:string">
+                    <maxLength value="6"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax60">
+                <restriction base="xsd:string">
+                    <maxLength value="60"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax60000">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                    <maxLength value="60000"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax64">
+                <restriction base="xsd:string">
+                    <maxLength value="64"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax8">
+                <restriction base="xsd:string">
+                    <maxLength value="8"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax80">
+                <restriction base="xsd:string">
+                    <maxLength value="80"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax9">
+                <restriction base="xsd:string">
+                    <maxLength value="9"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMax90">
+                <restriction base="xsd:string">
+                    <maxLength value="90"/>
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+            <simpleType name="StringMin1">
+                <restriction base="xsd:string">
+                    <minLength value="1"/>
+                </restriction>
+            </simpleType>
+        </schema>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Schema/MEGA/common-types-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gema.de/ESB/Schema/MEGA/common-types-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:annotation>
+                <xsd:documentation>CR</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType name="ActionType">
+                <xsd:annotation>
+                    <xsd:documentation>action type</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="SUPPLY"/>
+                    <xsd:enumeration value="DELETE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="AlternativeTrackTitle">
+                <xsd:complexContent>
+                    <xsd:extension base="ns4:NotationBaseType">
+                        <xsd:attribute name="subType" use="required" type="ns4:AlternativeTrackTitleType"/>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:simpleType name="AlternativeTrackTitleType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported types of alternative track
+				title notations
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ALTERNATE_TITLE"/>
+                    <xsd:enumeration value="ALTERNATE_TITLE_WITH_NATIONAL_CHARACTERS"/>
+                    <xsd:enumeration value="DURATION_TITLE"/>
+                    <xsd:enumeration value="FIRST_LINE_OF_TEXT"/>
+                    <xsd:enumeration value="FORMAL_TITLE"/>
+                    <xsd:enumeration value="INCORRECT_TITLE"/>
+                    <xsd:enumeration value="PART_TITLE"/>
+                    <xsd:enumeration value="RESTRICTED_TITLE"/>
+                    <xsd:enumeration value="SPECIAL_TITLE"/>
+                    <xsd:enumeration value="UK_NOTATION_DISCOGRAPHY_TITLE"/>
+                    <xsd:enumeration value="UNKNOWN"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="Artist">
+                <xsd:complexContent>
+                    <xsd:extension base="ns4:NotationWithPartsBaseType">
+                        <xsd:attribute name="subType" use="required" type="ns4:ArtistType"/>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:simpleType name="ArtistType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="CONDUCTOR"/>
+                    <xsd:enumeration value="UNKNOWN"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="AssignedKeysType">
+                <xsd:sequence>
+                    <xsd:element name="key" type="ns4:WorkKeyType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="iceWorkKey" type="ns4:IceWorkKeyType" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BestComponentValuesType">
+                <xsd:sequence>
+                    <xsd:element name="bestValue" type="ns4:BestValueType" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BestValueType">
+                <xsd:attribute name="documentationNotation" use="required" type="xsd:string"/>
+                <xsd:attribute name="lvr" use="required" type="xsd:float"/>
+                <xsd:attribute name="type" use="required" type="ns4:MetricComponentType"/>
+            </xsd:complexType>
+            <xsd:simpleType name="CategoryType">
+                <xsd:annotation>
+                    <xsd:documentation>An enumeration for identifing the content of the notation</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="TRACK_TITLE"/>
+                    <xsd:enumeration value="ALBUM_TITLE"/>
+                    <xsd:enumeration value="MOVIE_TITLE"/>
+                    <xsd:enumeration value="INTERESTED_PARTIES"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="ClientType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported delivery systems
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="LION"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="CollectionQaResultType">
+                <xsd:attribute name="result" use="required" type="ns4:QaResultType"/>
+                <xsd:attribute name="type" use="required" type="ns4:DistributableType"/>
+            </xsd:complexType>
+            <xsd:simpleType name="ContentOwnerDepClassIdentType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="DSPWC"/>
+                    <xsd:enumeration value="NWC"/>
+                    <xsd:enumeration value="PWC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="Creator">
+                <xsd:complexContent>
+                    <xsd:extension base="ns4:NotationWithPartsBaseType">
+                        <xsd:attribute name="subType" use="required" type="ns4:CreatorType"/>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:simpleType name="CreatorType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="COMPOSER"/>
+                    <xsd:enumeration value="ARRANGER"/>
+                    <xsd:enumeration value="AUTHOR"/>
+                    <xsd:enumeration value="UNKNOWN"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="CurrencyType">
+                <xsd:annotation>
+                    <xsd:documentation>defines supported currencies</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="EUR"/>
+                    <xsd:enumeration value="USD"/>
+                    <xsd:enumeration value="SEK"/>
+                    <xsd:enumeration value="GBP"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="DistributableType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="PND"/>
+                    <xsd:enumeration value="TND"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="DistributilityType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="AV-AR"/>
+                    <xsd:enumeration value="KEINE"/>
+                    <xsd:enumeration value="ALLE"/>
+                    <xsd:enumeration value="VK"/>
+                    <xsd:enumeration value="GR"/>
+                    <xsd:enumeration value="DE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="DocumentationSystemType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported documentation systems
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ICE"/>
+                    <xsd:enumeration value="DIDAS"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="EvaluationType">
+                <xsd:sequence>
+                    <xsd:element name="metricComponents" type="ns4:MetricComponentsType"/>
+                    <xsd:element name="bestComponentValues" type="ns4:BestComponentValuesType"/>
+                </xsd:sequence>
+                <xsd:attribute name="overallLvr" use="required" type="xsd:float"/>
+            </xsd:complexType>
+            <xsd:complexType name="ExternalSearchObjectType">
+                <xsd:sequence>
+                    <xsd:element name="searchData" type="ns4:SearchDataType"/>
+                    <xsd:element name="usageData" type="ns4:UsageDataType"/>
+                </xsd:sequence>
+                <xsd:attribute name="clientRequest" use="required" type="ns4:RequestType"/>
+                <xsd:attribute name="extId" use="required" type="xsd:unsignedLong"/>
+            </xsd:complexType>
+            <xsd:simpleType name="IceStatusType">
+                <xsd:restriction base="xsd:integer">
+                    <xsd:enumeration value="1"/>
+                    <xsd:enumeration value="2"/>
+                    <xsd:enumeration value="4"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="IceWorkKeyType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="20"/>
+                    <xsd:minLength value="1"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="IdentOwnerType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="PRS"/>
+                    <xsd:enumeration value="STIM"/>
+                    <xsd:enumeration value="GEMA"/>
+                    <xsd:enumeration value="ICE"/>
+                    <xsd:enumeration value="AUTO_MATCH_IMEX"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="Identifier">
+                <xsd:attribute name="publisher" type="xsd:string"/>
+                <xsd:attribute name="type" use="required" type="ns4:IdentifierType"/>
+                <xsd:attribute name="value" use="required" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="IdentifierKeyType">
+                <xsd:attribute name="contentOwner" type="xsd:string"/>
+                <xsd:attribute name="type" type="ns4:IdentifierType"/>
+                <xsd:attribute name="value" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="IdentifierMappingType">
+                <xsd:sequence>
+                    <xsd:element name="key" type="ns4:IdentifierKeyType"/>
+                    <xsd:element name="value" type="ns4:IdentifierValueType" minOccurs="0"/>
+                </xsd:sequence>
+                <xsd:attribute name="dateOfChange" type="xsd:dateTime"/>
+            </xsd:complexType>
+            <xsd:simpleType name="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported types of identifiers
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ISWC"/>
+                    <xsd:enumeration value="ISRC"/>
+                    <xsd:enumeration value="DSPWC"/>
+                    <xsd:enumeration value="NWC"/>
+                    <xsd:enumeration value="PWC"/>
+                    <xsd:enumeration value="MC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="IdentifierValueType">
+                <xsd:sequence>
+                    <xsd:element name="workKeys">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="workKey" type="ns4:WorkKeyType" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="IdentifiersType">
+                <xsd:sequence>
+                    <xsd:element name="identifier" type="ns4:Identifier" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="IndexUpdateType">
+                <xsd:attribute name="action" type="ns4:UpdateActionType"/>
+                <xsd:attribute name="trigger" type="ns4:UpdateTriggerType"/>
+            </xsd:complexType>
+            <xsd:complexType name="InterestedPartiesType">
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="artist" type="ns4:Artist"/>
+                    <xsd:element name="creator" type="ns4:Creator"/>
+                </xsd:choice>
+            </xsd:complexType>
+            <xsd:simpleType name="InterestedPartyRoleCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ADAPTOR"/>
+                    <xsd:enumeration value="ARRANGER"/>
+                    <xsd:enumeration value="ARTIST"/>
+                    <xsd:enumeration value="AUTHOR"/>
+                    <xsd:enumeration value="COMPOSER"/>
+                    <xsd:enumeration value="COMPOSER_AUTHOR"/>
+                    <xsd:enumeration value="PUBLISHER"/>
+                    <xsd:enumeration value="SUB_ARRANGER"/>
+                    <xsd:enumeration value="SUB_AUTHOR"/>
+                    <xsd:enumeration value="TRANSLATOR"/>
+                    <xsd:enumeration value="WRITER"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="InterestedPartyType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ARTIST"/>
+                    <xsd:enumeration value="CREATOR"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="InternationalClassIdentType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ISRC"/>
+                    <xsd:enumeration value="ISWC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="InternationalIdentType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ARCHIVED"/>
+                    <xsd:enumeration value="PREFERRED"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="KeyType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported work key types
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ATC"/>
+                    <xsd:enumeration value="STIM-SWC"/>
+                    <xsd:enumeration value="SWC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="MatchcodeClassIdentType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="MC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="MetaType" mixed="true">
+                <xsd:sequence>
+                    <xsd:element name="packageDescription">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:whiteSpace value="collapse"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="quantity" type="xsd:unsignedLong"/>
+                    <xsd:element name="quantityAutomaticallyProcessed" type="xsd:unsignedLong" minOccurs="0"/>
+                    <xsd:element name="quantityExported" type="xsd:unsignedLong" minOccurs="0"/>
+                    <xsd:element name="contentOwner" type="xsd:string"/>
+                    <xsd:element name="priority" type="ns4:PriorityType"/>
+                    <xsd:element name="deadline" type="xsd:dateTime" minOccurs="0"/>
+                    <xsd:element name="licensee" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="MetricComponent">
+                <xsd:attribute name="lvr" use="required" type="xsd:float"/>
+                <xsd:attribute name="type" use="required" type="ns4:MetricComponentType"/>
+            </xsd:complexType>
+            <xsd:simpleType name="MetricComponentType">
+                <xsd:annotation>
+                    <xsd:documentation>defines type of notation for a work
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="TITLE"/>
+                    <xsd:enumeration value="ARTIST"/>
+                    <xsd:enumeration value="CREATOR"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="MetricComponentsType">
+                <xsd:sequence>
+                    <xsd:element name="metricComponent" type="ns4:MetricComponent" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="MetricQaReasonType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the reason why metric QA has accepted or
+				not
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="LOW_METRIC"/>
+                    <xsd:enumeration value="HIGH_METRIC"/>
+                    <xsd:enumeration value="MANUAL_ASSIGNMENT"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="MetricQaResultType">
+                <xsd:sequence>
+                    <xsd:element name="evaluation" type="ns4:EvaluationType"/>
+                </xsd:sequence>
+                <xsd:attribute name="reason" use="required" type="ns4:MetricQaReasonType"/>
+                <xsd:attribute name="result" use="required" type="ns4:QaResultType"/>
+            </xsd:complexType>
+            <xsd:complexType name="NotationBaseType">
+                <xsd:attribute name="source" type="ns4:DocumentationSystemType"/>
+                <xsd:attribute name="value" use="required" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="NotationPart">
+                <xsd:attribute name="type" use="required" type="ns4:PartType"/>
+                <xsd:attribute name="value" use="required" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="NotationWithPartsBaseType">
+                <xsd:sequence>
+                    <xsd:element name="part" type="ns4:NotationPart" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="source" type="ns4:DocumentationSystemType"/>
+            </xsd:complexType>
+            <xsd:complexType name="NotationsType">
+                <xsd:sequence>
+                    <xsd:element name="trackTitles" type="ns4:TrackTitlesType"/>
+                    <xsd:element name="interestedParties" type="ns4:InterestedPartiesType" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="OldPartType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported notation parts
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="FIRST_NAME"/>
+                    <xsd:enumeration value="LAST_NAME"/>
+                    <xsd:enumeration value="FULL_NAME"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="OriginalTrackTitle">
+                <xsd:complexContent>
+                    <xsd:extension base="ns4:NotationBaseType">
+                        <xsd:attribute name="subType" use="required" type="ns4:OriginalTrackTitleType"/>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:simpleType name="OriginalTrackTitleType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported types for original track
+				title notations
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="UNKNOWN"/>
+                    <xsd:enumeration value="ORIGINAL_TITLE"/>
+                    <xsd:enumeration value="ORIGINAL_TITLE_TRANSLATED"/>
+                    <xsd:enumeration value="ORIGINAL_TITLE_WITH_NATIONAL_CHARACTERS"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="OtherQaResultType">
+                <xsd:attribute name="result" use="required" type="ns4:QaResultType"/>
+            </xsd:complexType>
+            <xsd:simpleType name="PartType">
+                <xsd:annotation>
+                    <xsd:documentation>An enumeration for identifing the part of the notation</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="FULL_NAME"/>
+                    <xsd:enumeration value="PART_NAME"/>
+                    <xsd:enumeration value="FIRST_NAME"/>
+                    <xsd:enumeration value="SECOND_FIRST_NAME"/>
+                    <xsd:enumeration value="LAST_NAME"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="PriceType">
+                <xsd:simpleContent>
+                    <xsd:extension base="xsd:decimal">
+                        <xsd:attribute name="currency" use="required" type="ns4:CurrencyType"/>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+            <xsd:simpleType name="PriorityType">
+                <xsd:annotation>
+                    <xsd:documentation>The supported priority types. LOW to HIGH should
+				be
+				used for regular requests
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="CRITICAL"/>
+                    <xsd:enumeration value="URGENT"/>
+                    <xsd:enumeration value="HIGH"/>
+                    <xsd:enumeration value="MEDIUM"/>
+                    <xsd:enumeration value="LOW"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="PublisherType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OV"/>
+                    <xsd:enumeration value="SV"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="QaResultType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the kind of results the qa can delivered
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="REJECTED"/>
+                    <xsd:enumeration value="NON_REJECTED"/>
+                    <xsd:enumeration value="ACCEPTED"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="QaResultsType">
+                <xsd:sequence>
+                    <xsd:element name="metricQaResult" type="ns4:MetricQaResultType" minOccurs="0"/>
+                    <xsd:element name="exclusionQaResult" type="ns4:OtherQaResultType" minOccurs="0"/>
+                    <xsd:element name="collectionQaResult" type="ns4:CollectionQaResultType" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="QaType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the types of QA's</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="METRIC"/>
+                    <xsd:enumeration value="EXCLUSION"/>
+                    <xsd:enumeration value="COLLECTION"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="RegistrationStatusType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="FREI"/>
+                    <xsd:enumeration value="AUSL"/>
+                    <xsd:enumeration value="NM-U"/>
+                    <xsd:enumeration value="NM-E"/>
+                    <xsd:enumeration value="GANZ"/>
+                    <xsd:enumeration value="NM"/>
+                    <xsd:enumeration value="NM-ON"/>
+                    <xsd:enumeration value="NM-FS"/>
+                    <xsd:enumeration value="NM-TT"/>
+                    <xsd:enumeration value="STRIT"/>
+                    <xsd:enumeration value="INFO"/>
+                    <xsd:enumeration value="NM-R"/>
+                    <xsd:enumeration value="K-AWA"/>
+                    <xsd:enumeration value="INDEX"/>
+                    <xsd:enumeration value="WB/RB"/>
+                    <xsd:enumeration value="GAM1"/>
+                    <xsd:enumeration value="UNKLA"/>
+                    <xsd:enumeration value="NM-BT"/>
+                    <xsd:enumeration value="VORL"/>
+                    <xsd:enumeration value="PAI"/>
+                    <xsd:enumeration value="MIGR"/>
+                    <xsd:enumeration value="V-AV"/>
+                    <xsd:enumeration value="K-GK"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="RequestType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the delivery system's request
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="FULL"/>
+                    <xsd:enumeration value="IDENTIFIER"/>
+                    <xsd:enumeration value="TEXT"/>
+                    <xsd:enumeration value="MANUAL"/>
+                    <xsd:enumeration value="AUTOMATIC"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="SearchDataType">
+                <xsd:sequence>
+                    <xsd:element name="identifiers" type="ns4:IdentifiersType" minOccurs="0"/>
+                    <xsd:element name="notations" type="ns4:NotationsType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="SearchHitType">
+                <xsd:sequence>
+                    <xsd:element name="qaResults" type="ns4:QaResultsType"/>
+                </xsd:sequence>
+                <xsd:attribute name="iwk" use="required" type="ns4:IceWorkKeyType"/>
+                <xsd:attribute name="qa" use="required" type="ns4:QaResultType"/>
+            </xsd:complexType>
+            <xsd:complexType name="SearchHitsType">
+                <xsd:sequence>
+                    <xsd:element name="searchHit" type="ns4:SearchHitType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="SearchResultType">
+                <xsd:sequence>
+                    <xsd:element name="searchHits" type="ns4:SearchHitsType"/>
+                </xsd:sequence>
+                <xsd:attribute name="summary" use="required" type="ns4:SummaryType"/>
+                <xsd:attribute name="type" use="required" type="ns4:SearchType"/>
+            </xsd:complexType>
+            <xsd:complexType name="SearchResultsType">
+                <xsd:sequence>
+                    <xsd:element name="result" type="ns4:SearchResultType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="lastProcess" use="required" type="ns4:SearchType"/>
+                <xsd:attribute name="success" use="required" type="xsd:boolean"/>
+            </xsd:complexType>
+            <xsd:simpleType name="SearchType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported search types
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="IDENTIFIER"/>
+                    <xsd:enumeration value="TEXT"/>
+                    <xsd:enumeration value="MANUAL"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="SocietyType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported societies
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="GEMA"/>
+                    <xsd:enumeration value="PRS"/>
+                    <xsd:enumeration value="STIM"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="SourceNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Owner Type</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="DIDAS"/>
+                    <xsd:enumeration value="TONIS"/>
+                    <xsd:enumeration value="IPI"/>
+                    <xsd:enumeration value="ICE"/>
+                    <xsd:enumeration value=""/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="SummaryType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the kind of summary</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="NO_SEARCH_POSSIBLE"/>
+                    <xsd:enumeration value="NO_SEARCH_HITS"/>
+                    <xsd:enumeration value="NO_ACCEPTED_SEARCH_HITS"/>
+                    <xsd:enumeration value="SUCCESSFUL_ASSIGNMENT"/>
+                    <xsd:enumeration value="AMBIGUOUS_SEARCH_HITS"/>
+                    <xsd:enumeration value="TOO_MANY_SEARCH_HITS"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="TrackTitlesType">
+                <xsd:sequence>
+                    <xsd:element name="originalTrackTitle" type="ns4:OriginalTrackTitle" maxOccurs="unbounded"/>
+                    <xsd:element name="alternativeTrackTitle" type="ns4:AlternativeTrackTitle" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="TriggerType">
+                <xsd:annotation>
+                    <xsd:documentation>triggering system Type</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="DIDAS"/>
+                    <xsd:enumeration value="ICE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="UpdateActionType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported update actions
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="SUPPLY"/>
+                    <xsd:enumeration value="DELETE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="UpdateTriggerType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the supported update triggers
+			</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ICE"/>
+                    <xsd:enumeration value="MAX"/>
+                    <xsd:enumeration value="PRS"/>
+                    <xsd:enumeration value="STIM"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="UsageDataType" mixed="true">
+                <xsd:sequence>
+                    <xsd:element name="quantity" type="xsd:integer"/>
+                    <xsd:element name="price" type="ns4:PriceType"/>
+                    <xsd:element name="duration" type="xsd:duration" minOccurs="0"/>
+                    <xsd:element name="externalLinkID" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Work">
+                <xsd:sequence minOccurs="0">
+                    <xsd:element name="additionalKeys">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="key" type="ns4:WorkKeyType" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="notations" type="ns4:NotationsType" maxOccurs="unbounded"/>
+                    <xsd:element name="details" type="ns4:WorkDetailsType"/>
+                </xsd:sequence>
+                <xsd:attribute name="dateOfChange" type="xsd:dateTime"/>
+                <xsd:attribute name="iwk" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="WorkDetailsType">
+                <xsd:sequence>
+                    <xsd:element name="iceStatus" type="xsd:unsignedInt"/>
+                    <xsd:element name="registrationStatus" type="xsd:string"/>
+                    <xsd:element name="distributability" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="WorkKeyType">
+                <xsd:attribute name="type" use="required" type="ns4:KeyType"/>
+                <xsd:attribute name="value" use="required" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:simpleType name="WorkTitleSubType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ORIGINAL_TITLE"/>
+                    <xsd:enumeration value="ALTERNATE_TITLE"/>
+                    <xsd:enumeration value="FORMAL_TITLE"/>
+                    <xsd:enumeration value="RESTRICTED_TITLE"/>
+                    <xsd:enumeration value="FIRST_LINE_OF_TEXT"/>
+                    <xsd:enumeration value="ORIGINAL_TITLE_TRANSLATED"/>
+                    <xsd:enumeration value="SPECIAL_TITLE"/>
+                    <xsd:enumeration value="PART_TITLE"/>
+                    <xsd:enumeration value="INCORRECT_TITLE"/>
+                    <xsd:enumeration value="ORIGINAL_TITLE_WITH_NATIONAL_CHARACTERS"/>
+                    <xsd:enumeration value="ALTERNATE_TITLE_WITH_NATIONAL_CHARACTERS"/>
+                    <xsd:enumeration value="UK_NOTATION_DISCOGRAPHY_TITLE"/>
+                    <xsd:enumeration value="DURATION_TITLE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="WorkTitleType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ORIGINAL_TITLE"/>
+                    <xsd:enumeration value="ALTERNATE_TITLE"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="WorkType">
+                <xsd:annotation>
+                    <xsd:documentation>Owner Type</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="WORK"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:schema>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkRequest-001" xmlns:ct="http://www.gema.de/ESB/Schema/MEGA/common-types-001" xmlns:st="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkRequest-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/MEGA/common-types-001"/>
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001"/>
+            <xsd:annotation>
+                <xsd:documentation>
+		
+		Revision: $Id: SkeletonWorkRequest.xsd,v 1.3 2014/02/20 09:55:02 vnovak Exp $
+		
+        *******************************************************************************
+        **                                                                                          	** 
+        ** NOTE THIS CHANGE HISTORY IS USED TO DOCUMENT		**
+        ** CHANGES TO THE XML SCHEMA. THIS CHANGE HISTORY	**
+        ** SHOULD BE REMOVED ONCE THE FINAL VERSION OF		**
+        ** THE ICD IS PUBLISHED.  														**
+        **																								**
+        *******************************************************************************
+        **                            CHANGE HISTORY										**
+        *******************************************************************************
+		$Log: SkeletonWorkRequest.xsd,v $
+		Revision 1.3  2014/02/20 09:55:02  vnovak
+		Changed title from optional to mandatory.
+
+		Revision 1.2  2014/02/19 11:17:32  vnovak
+		Changed SchemaName and made first tag uppercase to adapt to styleguide for WSDLs.
+		
+		Revision 1.1  2014/02/18 13:40:11  vnovak
+		Splitted E1 in Request and Response.
+		Revision 1.3  2014/01/29 11:55:47  vnovak
+		Added Version Attribute.
+		
+		Revision 1.2  2014/01/27 11:48:33  vnovak
+		IWKs have their own type.
+		
+		Revision 1.1  2014/01/17 11:17:06  pkuehn
+		new structure
+		
+		Revision 1.9  2013/11/21 11:18:46  vnovak
+		Added cvs log to all xsds for traceability.
+		
+
+      </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType name="ErrorCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OK"/>
+                    <xsd:enumeration value="CANNOTCREATE"/>
+                    <xsd:enumeration value="INVALID_INPUT"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:element name="work">
+                <xsd:annotation>
+                    <xsd:documentation>E1-Interface MAX/ICE - Work Data</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="society">
+                            <xsd:complexType>
+                                <xsd:attribute name="cisacSocietyCode" use="required" type="st:StringMax3"/>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="interestedParties">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="interestedParty" maxOccurs="unbounded">
+                                        <xsd:complexType>
+                                            <xsd:attribute name="firstName" type="st:StringMax45"/>
+                                            <xsd:attribute name="ipNameNumber" type="st:StringIntMax11"/>
+                                            <xsd:attribute name="lastName" use="required" type="st:StringMax90"/>
+                                            <xsd:attribute name="roleCode" use="required" type="ct:InterestedPartyRoleCodeType"/>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="workTitles">
+                            <xsd:complexType>
+                                <xsd:sequence maxOccurs="3">
+                                    <xsd:element name="workTitle">
+                                        <xsd:complexType>
+                                            <xsd:attribute name="title" use="required" type="st:StringMax90"/>
+                                            <xsd:attribute name="type" use="required" type="ct:WorkTitleType"/>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema xmlns="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001" xmlns:ct="http://www.gema.de/ESB/Schema/MEGA/common-types-001" xmlns:st="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/MEGA/common-types-001"/>
+            <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/PrimitiveBaseTypes-001"/>
+            <xsd:annotation>
+                <xsd:documentation>
+		
+		Revision: $Id: SkeletonWork.xsd,v 1.3 2014/01/29 11:55:47 vnovak Exp $
+		
+        *******************************************************************************
+        **                                                                                          	** 
+        ** NOTE THIS CHANGE HISTORY IS USED TO DOCUMENT		**
+        ** CHANGES TO THE XML SCHEMA. THIS CHANGE HISTORY	**
+        ** SHOULD BE REMOVED ONCE THE FINAL VERSION OF		**
+        ** THE ICD IS PUBLISHED.  														**
+        **																								**
+        *******************************************************************************
+        **                            CHANGE HISTORY										**
+        *******************************************************************************
+		$Log: SkeletonWork.xsd,v $
+		Revision 1.3  2014/01/29 11:55:47  vnovak
+		Added Version Attribute.
+		
+		Revision 1.2  2014/01/27 11:48:33  vnovak
+		IWKs have their own type.
+		
+		Revision 1.1  2014/01/17 11:17:06  pkuehn
+		new structure
+		
+		Revision 1.9  2013/11/21 11:18:46  vnovak
+		Added cvs log to all xsds for traceability.
+		
+
+      </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType name="ErrorCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OK"/>
+                    <xsd:enumeration value="CANNOTCREATE"/>
+                    <xsd:enumeration value="INVALID_INPUT"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:element name="createdWork">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="society" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:attribute name="societyWorkCode" use="required" type="st:StringMax20"/>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="iceWorkKey" use="required" type="ct:IceWorkKeyType"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="matchedWork">
+                <xsd:complexType>
+                    <xsd:attribute name="iceWorkKey" use="required" type="ct:IceWorkKeyType"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="status">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="errorCode" type="ns6:ErrorCodeType"/>
+                        <xsd:element name="errorMessage" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:service name="Work001">
+        <wsdl:port name="WorkEndpoint" binding="tns:WorkEndpointBinding">
+            <soap:address location=""/>
+            <jms:connectionFactory>ESBCORE.reconnectSyncQueueCF</jms:connectionFactory>
+            <jms:targetAddress destination="queue">Work001.q.sync</jms:targetAddress>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:portType name="WorkPortType">
+        <wsdl:operation name="GetWorkDetails">
+            <wsdl:input message="tns:GetWorkDetailsRequest"/>
+            <wsdl:output message="tns:GetWorkDetailsResponse"/>
+            <wsdl:fault name="systemESBException" message="tns:systemESBException"/>
+            <wsdl:fault name="businessESBException" message="tns:businessESBException"/>
+            <wsdl:fault name="validationESBException" message="tns:validationESBException"/>
+        </wsdl:operation>
+        <wsdl:operation name="CreateSkeletonWork">
+            <wsdl:input message="tns:CreateSkeletonWorkRequest"/>
+            <wsdl:output message="tns:CreateSkeletonWorkResponse"/>
+            <wsdl:fault name="systemESBException" message="tns:systemESBException"/>
+            <wsdl:fault name="businessESBException" message="tns:businessESBException"/>
+            <wsdl:fault name="validationESBException" message="tns:validationESBException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WorkEndpointBinding" type="tns:WorkPortType">
+        <soap:binding style="document" transport="http://www.tibco.com/namespaces/ws/2004/soap/binding/JMS"/>
+        <jms:binding messageFormat="Text"/>
+        <wsdl:operation name="GetWorkDetails">
+            <soap:operation style="document" soapAction="/Work001/getWorkDetails"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="GetWorkDetailsRequest"/>
+                <soap:header use="literal" message="tns:traceIdentifier" part="TraceIdentifier"/>
+                <soap:header use="literal" message="tns:controllObject" part="ControllObject"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="GetWorkDetailsResponse"/>
+            </wsdl:output>
+            <wsdl:fault name="systemESBException">
+                <soap:fault use="literal" name="systemESBException"/>
+            </wsdl:fault>
+            <wsdl:fault name="businessESBException">
+                <soap:fault use="literal" name="businessESBException"/>
+            </wsdl:fault>
+            <wsdl:fault name="validationESBException">
+                <soap:fault use="literal" name="validationESBException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="CreateSkeletonWork">
+            <soap:operation style="document" soapAction="/Application/Service/Work/ServiceAgent/WorkAbstract-001-service0.serviceagent/WorkPortTypeEndpoint0/CreateSkeletonWork"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="CreateSkeletonWorkRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="CreateSkeletonWorkResponse"/>
+            </wsdl:output>
+            <wsdl:fault name="systemESBException">
+                <soap:fault use="literal" name="systemESBException"/>
+            </wsdl:fault>
+            <wsdl:fault name="businessESBException">
+                <soap:fault use="literal" name="businessESBException"/>
+            </wsdl:fault>
+            <wsdl:fault name="validationESBException">
+                <soap:fault use="literal" name="validationESBException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:message name="traceIdentifier">
+        <wsdl:part name="TraceIdentifier" element="ns0:traceIdentifier"/>
+    </wsdl:message>
+    <wsdl:message name="controllObject">
+        <wsdl:part name="ControllObject" element="ns0:controllObject"/>
+    </wsdl:message>
+    <wsdl:message name="GetWorkDetailsRequest">
+        <wsdl:part name="GetWorkDetailsRequest" element="ns1:GetWorkDetailsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetWorkDetailsResponse">
+        <wsdl:part name="GetWorkDetailsResponse" element="ns1:GetWorkDetailsResponse"/>
+    </wsdl:message>
+    <wsdl:message name="systemESBException">
+        <wsdl:part name="SystemESBException" element="ns0:systemException"/>
+    </wsdl:message>
+    <wsdl:message name="businessESBException">
+        <wsdl:part name="BusinessESBException" element="ns0:businessException"/>
+    </wsdl:message>
+    <wsdl:message name="validationESBException">
+        <wsdl:part name="ValidationESBException" element="ns0:validationException"/>
+    </wsdl:message>
+    <wsdl:message name="CreateSkeletonWorkRequest">
+        <wsdl:part name="CreateSkeletonWorkRequest" element="ns1:CreateSkeletonWorkRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CreateSkeletonWorkResponse">
+        <wsdl:part name="CreateSkeletonWorkResponse" element="ns1:CreateSkeletonWorkResponse"/>
+    </wsdl:message>
+</wsdl:definitions>

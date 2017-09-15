@@ -1,0 +1,145 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<definitions name = "IAC9361" targetNamespace = "http://iac9361.wsbeans.iseries/" xmlns = "http://schemas.xmlsoap.org/wsdl/" xmlns:soap = "http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns = "http://iac9361.wsbeans.iseries/" xmlns:wsam = "http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp = "http://www.w3.org/ns/ws-policy" xmlns:wsp1_2 = "http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+	<types>
+		<xs:schema targetNamespace = "http://iac9361.wsbeans.iseries/" version = "1.0" xmlns = "http://schemas.xmlsoap.org/wsdl/" xmlns:soap = "http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns = "http://iac9361.wsbeans.iseries/" xmlns:wsam = "http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp = "http://www.w3.org/ns/ws-policy" xmlns:wsp1_2 = "http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xs = "http://www.w3.org/2001/XMLSchema" xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+			<xs:element name = "iac9361" type = "tns:iac9361"/>
+			<xs:element name = "iac9361Response" type = "tns:iac9361Response"/>
+			<xs:complexType name = "iac9361">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "arg0" nillable = "true" type = "tns:iac9361Input"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361Input">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_IACSESSION" nillable = "true" type = "tns:iacsession"/>
+					<xs:element minOccurs = "0" name = "_IAC9361I" nillable = "true" type = "tns:iac9361I"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iacsession">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_USERNUMBER" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_USERID" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_LANGCODE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_SHWNATCHAR" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361I">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_WORKKEY" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_REPLIST" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_WRKREFLIST" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_NOTELIST" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361Response">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "return" nillable = "true" type = "tns:iac9361Result"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361Result">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_IACRESLIST" nillable = "true" type = "tns:iacreslist"/>
+					<xs:element minOccurs = "0" name = "_IACRETMSGS" nillable = "true" type = "tns:iacretmsgs"/>
+					<xs:element minOccurs = "0" name = "_IAC9361D" nillable = "true" type = "tns:iac9361D"/>
+					<xs:element maxOccurs = "unbounded" minOccurs = "0" name = "_IAC9361L1" nillable = "true" type = "tns:iac9361L1"/>
+					<xs:element maxOccurs = "unbounded" minOccurs = "0" name = "_IAC9361L2" nillable = "true" type = "tns:iac9361L2"/>
+					<xs:element maxOccurs = "unbounded" minOccurs = "0" name = "_IAC9361L3" nillable = "true" type = "tns:iac9361L3"/>
+					<xs:element maxOccurs = "unbounded" minOccurs = "0" name = "_IAC9361L4" nillable = "true" type = "tns:iac9361L4"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iacreslist">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_RETNOOFROW" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_ENDOFFILE" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iacretmsgs">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_MSGSEVER" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_MSGID" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MSGFIELD" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MSGTABLE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MSGTEXT" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MICROSECS" nillable = "true" type = "xs:decimal"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361D">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_WORKKEY" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_WORKTITLE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_VERTYPE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_WORKSTATUS" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_GEMASTATUS" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_GEMADISTRB" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361L1">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_IPNAMEKEY" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_IPBASEKEY" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_IPNAMEN" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_IPBASEN" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_LOCAFFNBR" nillable = "true" type = "xs:decimal"/>
+					<xs:element minOccurs = "0" name = "_NAME" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_FIRSTNAME" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_TYPEOFNAME" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_CAECODE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MECSOCCDE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MECSOCACRO" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_MECEXCEPT" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_PERFSOCCDE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_PERFSOCACR" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_PERFEXCEPT" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361L2">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_REPCODE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_NAME" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361L3">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_SOCCODE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_SOCACRO" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_WRKREF" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name = "iac9361L4">
+				<xs:sequence>
+					<xs:element minOccurs = "0" name = "_NOTETYPE" nillable = "true" type = "xs:string"/>
+					<xs:element minOccurs = "0" name = "_NOTETEXT" nillable = "true" type = "xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	<message name = "iac9361">
+		<part element = "tns:iac9361" name = "parameters">    </part>
+	</message>
+	<message name = "iac9361Response">
+		<part element = "tns:iac9361Response" name = "parameters">    </part>
+	</message>
+	<portType name = "IAC9361Services">
+		<operation name = "iac9361">
+			<input message = "tns:iac9361" wsam:Action = "http://iac9361.wsbeans.iseries/IAC9361Services/iac9361Request">    </input>
+			<output message = "tns:iac9361Response" wsam:Action = "http://iac9361.wsbeans.iseries/IAC9361Services/iac9361Response">    </output>
+		</operation>
+	</portType>
+	<binding name = "IAC9361ServicesPortBinding" type = "tns:IAC9361Services">
+		<soap:binding style = "document" transport = "http://schemas.xmlsoap.org/soap/http"/>
+		<operation name = "iac9361">
+			<soap:operation soapAction = ""/>
+			<input>
+				<soap:body use = "literal"/>
+			</input>
+			<output>
+				<soap:body use = "literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name = "IAC9361">
+		<port binding = "tns:IAC9361ServicesPortBinding" name = "IAC9361ServicesPort">
+			<soap:address location = "http://services.iceaccess.com/wsa800/IAC9361"/>
+		</port>
+	</service>
+</definitions>

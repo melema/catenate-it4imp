@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <folder resourceType="ae.rootfolder" name="GEMA_ICE_ADP" propLocks="" allowUserToChangeIcon="false" sortContents="false" acceptsResources="true" allowDuplicates="false">
+        <fixedChildren/>
+        <projectProperties>
+            <property key="ae.pallette.tcp.pallette.version" value="5.13.0"/>
+            <property key="palette.generalpalette.version" value="5.3.0"/>
+            <property key="ae.palette.bwlx.version" value="1.1.0.8"/>
+            <property key="aa.adapteradministrator.palette.version" value="5.3.0"/>
+            <property key="ae.palette.SOAPpalette.version" value="5.13.0"/>
+            <property key="projectName" value="GEMA_ICE_ADP"/>
+            <property key="ae.palette.Mail.palette.version" value="5.13.0"/>
+            <property key="ae.palette.rvpalette.version" value="5.13.0"/>
+            <property key="ae.palette.JMS.palette.version" value="5.13.0"/>
+            <property key="service.palette.version" value="5.13.0"/>
+            <property key="ae.palette.jrmi.palette.version" value="5.13.0"/>
+            <property key="ae.palette.Filepalette.version" value="5.13.0"/>
+            <property key="ae.palette.FTPpalette.version" value="5.13.0"/>
+            <property key="ae.palette.mongodb.palette.version" value="1.0.0.16"/>
+            <property key="wsdlresource.palette.version" value="5.13.0"/>
+            <property key="ae.process.palette.version" value="5.13.0"/>
+            <property key="hdfs.palette.version" value="1.0.0.9"/>
+            <property key="wadlresource.palette.version" value="1.0.0.00"/>
+            <property key="ae.palette.JDBCpalette.version" value="5.13.0"/>
+            <property key="httppalette.httpplugins.version" value="5.13.0"/>
+            <property key="ae.palette.parsepalette.version" value="5.13.0"/>
+            <property key="ae.designerapp.version" value="5.10.0.19"/>
+            <property key="ae.palette.jsonpalette.version" value="2.0.0.13"/>
+            <property key="ae.repo.palette.version" value="5.3.0"/>
+            <property key="turbo.palette.version" value="5.6.1"/>
+            <property key="ae.aepalette.ae.palette.version" value="5.13.0"/>
+            <property key="ae.palette.Policy.version" value="5.13.0"/>
+            <property key="ae.palette.java.palette.version" value="5.13.0"/>
+            <property key="hadoop.palette.version" value="1.0.0.9"/>
+            <property key="ae.palette.GeneralPalette.version" value="5.13.0"/>
+            <property key="ae.palette.transaction.palette.version" value="5.13.0"/>
+            <property key="palette.ae.metadata.version" value="5.3.0"/>
+            <property key="ae.palette.xml.palette.version" value="5.13.0"/>
+            <property key="njams.palette.version" value="3.0.1 (Build: 13649)"/>
+        </projectProperties>
+    </folder>
+</Repository:repository>

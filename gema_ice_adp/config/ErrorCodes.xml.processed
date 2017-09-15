@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:BusinessExceptionConfigurations xsi:schemaLocation="http://www.gema.de/ESB/RetryHandler/BusinessExceptionConfigurations BusinessExceptionConfigurations.xsd" xmlns:tns="http://www.gema.de/ESB/RetryHandler/BusinessExceptionConfigurations" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<tns:BusinessExceptionConfiguration>
+		<tns:queueName>@TO_BE_SET@</tns:queueName>
+		<tns:errorCode>ESB000006</tns:errorCode>
+	</tns:BusinessExceptionConfiguration>
+</tns:BusinessExceptionConfigurations>

@@ -1,0 +1,25 @@
+errorCode;errorType;errorMessage
+ESB000001;System;Unhandled system exception. Please see ErrorInformation for further info or contact system support
+ESB000002;Validation;Binding Exception. SOAP request could not be validated against WSDL
+ESB000003;System;Error Codes could not be loaded. Check ErrorInformation for details.
+ESB000004;System;Backend Error Codes could not be loaded. Check ErrorInformation for details.
+ESB000005;Business;Given ESB ErrorCode could not be found. Check ErrorInformation for details
+ESB000006;Business;Given Backend ErrorCode could not be found. Check ErrorInformation for details
+ESB000007;System;HttpException
+ESB000008;System;HttpClientException
+ESB000009;System;HttpServerException
+ESB000010;System;HttpCommunicationException
+ESB000011;System;HttpResponseException
+ESB000012;System;ActivityTimedOutException
+ESB000013;System;JMSMessageCreateException
+ESB000014;System;JMSReceiveException
+ESB000015;System;JMSSendException
+ESB000016;System;JMSSessionCreateException
+ESB000017;System;Unknow Communication Problem
+ESB000018;System;The Configuration file could not be loaded. Check ErrorInformation for details.
+ESB000019;Validation;Unable to parse the traceIdentifier. Check ErrorInformation for details.
+ESB000020;System;Routing element is not found for the requested URI
+ESB000021;System;GatewayTimeOutException.
+ESB000022;Business;Process Name doesnot exists
+ESB000023;System;Error while removing the lock files. 
+ESB000024;System;Error in loading the configuration file.

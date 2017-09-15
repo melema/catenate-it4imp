@@ -1,0 +1,1083 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:pfx="http://www.gema.de/ESB/BW/Core">
+    <xsd:import namespace="http://www.gema.de/ESB/BW/Core" schemaLocation="/Core/Schema/Core.xsd"/>
+    <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" schemaLocation="/Interfaces/ESB/Schema/Common/BaseTypes-001.xsd"/>
+    <pd:name>Application/ExceptionHandling/@COMPONENT@ExceptionHandler.process</pd:name>
+    <pd:description>$Id$</pd:description>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="Input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx2:traceIdentifier"/>
+                    <xsd:element ref="pfx:errorReport"/>
+                    <xsd:element ref="pfx2:businessException" minOccurs="0"/>
+                    <xsd:element ref="pfx2:systemException" minOccurs="0"/>
+                    <xsd:element ref="pfx2:validationException" minOccurs="0"/>
+                    <xsd:element ref="pfx:defaultFault" minOccurs="0"/>
+                    <xsd:element ref="pfx:backendError" minOccurs="0"/>
+                    <xsd:element name="errorMappingBackend" type="xsd:string"/>
+                    <xsd:element name="serviceName" type="xsd:string"/>
+                    <xsd:element name="parentLogId" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="businessStartTime" type="xsd:dateTime" minOccurs="0"/>
+                    <xsd:element name="businessEndTime" type="xsd:dateTime" minOccurs="0"/>
+                    <xsd:element name="payload" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="disableTracing" type="xsd:boolean" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>115</pd:startX>
+    <pd:startY>849</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1538</pd:endX>
+    <pd:endY>855</pd:endY>
+    <pd:errorSchemas>
+        <SystemException ref="pfx2:systemException"/>
+        <BusinessException ref="pfx2:businessException"/>
+        <ValidationException ref="pfx2:validationException"/>
+    </pd:errorSchemas>
+    <pd:processVariables>
+        <ErrorDetails>
+            <xsd:element name="ErrorDetails">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="mappingError" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="errorCode" type="pfx2:ErrorCodeType"/>
+                                    <xsd:element name="errorMessage" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="errorDetails" type="pfx2:ErrorDetailsType" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </ErrorDetails>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1377674162338</pd:targetNamespace>
+    <pd:activity name="Debug">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>256</pd:x>
+        <pd:y>848</pd:y>
+        <config>
+            <processName>/Core/Logging/Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:if test="$_globalVariables/ns:GlobalVariables/Core/Logging/LogLevel=&quot;D&quot;">
+                    <Input>
+                        <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                        <logLevel>
+                            <xsl:value-of select="&quot;D&quot;"/>
+                        </logLevel>
+                        <serviceName>
+                            <xsl:value-of select="&quot;StandardExceptionHandler&quot;"/>
+                        </serviceName>
+                        <message>
+                            <xsl:value-of select="tib:render-xml($Start/Input)"/>
+                        </message>
+                    </Input>
+                </xsl:if>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>343</pd:x>
+        <pd:y>9</pd:y>
+        <pd:width>800</pd:width>
+        <pd:height>1579</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>ifThenElse</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>BusinessException</pd:to>
+            <pd:xpathDescription>BusinssException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>exists($Start/Input/pfx2:businessException)</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>SystemException</pd:to>
+            <pd:xpathDescription>SystemException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>exists($Start/Input/pfx2:systemException)</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>ValidationException</pd:to>
+            <pd:xpathDescription>ValidationException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>exists($Start/Input/pfx2:validationException)</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>GetErrorCodeByBackendErrorCode</pd:to>
+            <pd:xpathDescription>BackenError</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>string-length($Start/Input/pfx:backendError/pfx:errorCode)&gt;0</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpException</pd:to>
+            <pd:xpathDescription>HttpException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "HttpException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpClientException</pd:to>
+            <pd:xpathDescription>HttpClientException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "HttpClientException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpServerException</pd:to>
+            <pd:xpathDescription>HttpServerException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "HttpServerException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpCommunicationException</pd:to>
+            <pd:xpathDescription>HttpCommunicationException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "HttpCommunicationException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpResponseException</pd:to>
+            <pd:xpathDescription>HttpResponseException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "HttpResponseException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>ActivityTimedOutException</pd:to>
+            <pd:xpathDescription>ActivityTimedOutException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "ActivityTimedOutException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>JDBCConnectionNotFoundException</pd:to>
+            <pd:xpathDescription>JDBCConnectionNotFoundException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "JDBCConnectionNotFoundException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>InvalidSQLTypeException</pd:to>
+            <pd:xpathDescription>InvalidSQLTypeException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "InvalidSQLTypeException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>JDBCDriverLoadingException</pd:to>
+            <pd:xpathDescription>JDBCDriverLoadingException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "JDBCDriverLoadingException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>GetErrorCodeByBackendErrorCode-1</pd:to>
+            <pd:xpathDescription>JDBCSQLException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "JDBCSQLException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>JDBCTimedOutException</pd:to>
+            <pd:xpathDescription>JDBCTimedOutException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "JDBCTimedOutException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>SendFailed</pd:to>
+            <pd:xpathDescription>SendFailedException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "SendFailedException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>UnknownHost</pd:to>
+            <pd:xpathDescription>UnknownHostException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>local-name($Start/Input/pfx:errorReport/data/*) = "UnknownHostException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>BindException</pd:to>
+            <pd:xpathDescription>BindException</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>$Start/Input/pfx:errorReport/pfx:class="BindException"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Unknown</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>BackendError</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Unknown</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>BindException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>JDBCConnectionNotFoundException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>UnknownHost</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>JDBCTimedOutException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpCommunicationException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>InvalidSQLTypeException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>JDBCSQLException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SendFailed</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpServerException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpResponseException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ActivityTimedOutException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpClientException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SystemException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>BusinessException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ValidationException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>JDBCDriverLoadingException</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>GetErrorCodeByBackendErrorCode</pd:from>
+            <pd:to>BackendError</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>GetErrorCodeByBackendErrorCode-1</pd:from>
+            <pd:to>JDBCSQLException</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="BusinessException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>735</pd:x>
+            <pd:y>78</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <errorDetails>
+                        <xsl:copy-of select="$Start/Input/pfx2:businessException/pfx2:errorDetails/ancestor-or-self::*/namespace::node()"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:businessException/pfx2:errorDetails/@*"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:businessException/pfx2:errorDetails/node()"/>
+                    </errorDetails>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SystemException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>742</pd:x>
+            <pd:y>145</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <errorDetails>
+                        <xsl:copy-of select="$Start/Input/pfx2:systemException/pfx2:errorDetails/ancestor-or-self::*/namespace::node()"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:systemException/pfx2:errorDetails/@*"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:systemException/pfx2:errorDetails/node()"/>
+                    </errorDetails>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ValidationException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>751</pd:x>
+            <pd:y>218</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <errorDetails>
+                        <xsl:copy-of select="$Start/Input/pfx2:validationException/pfx2:errorDetails/ancestor-or-self::*/namespace::node()"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:validationException/pfx2:errorDetails/@*"/>
+                        <xsl:copy-of select="$Start/Input/pfx2:validationException/pfx2:errorDetails/node()"/>
+                    </errorDetails>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="GetErrorCodeByBackendErrorCode">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>694</pd:x>
+            <pd:y>338</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/GetErrorCodeByBackendErrorCode.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <backendName>
+                        <xsl:value-of select="$Start/Input/errorMappingBackend"/>
+                    </backendName>
+                    <backendErrorCode>
+                        <xsl:value-of select="$Start/Input/pfx:backendError/pfx:errorCode"/>
+                    </backendErrorCode>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="BackendError">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>803</pd:x>
+            <pd:y>334</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="$GetErrorCodeByBackendErrorCode/Output/errorCode"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:backendError/pfx:errorMessag"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>750</pd:x>
+            <pd:y>396</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000003&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpClientException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>754</pd:x>
+            <pd:y>460</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000004&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpServerException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>763</pd:x>
+            <pd:y>528</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000005&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpResponseException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>772</pd:x>
+            <pd:y>667</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000007&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpCommunicationException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>765</pd:x>
+            <pd:y>597</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000006&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ActivityTimedOutException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>766</pd:x>
+            <pd:y>738</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000008&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Unknown">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>798</pd:x>
+            <pd:y>1519</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000009&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="JDBCDriverLoadingException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>779</pd:x>
+            <pd:y>954</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000017&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="JDBCConnectionNotFoundException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>772</pd:x>
+            <pd:y>807</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000015&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="InvalidSQLTypeException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>780</pd:x>
+            <pd:y>879</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000018&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="JDBCSQLException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>857</pd:x>
+            <pd:y>1002</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <xsl:choose>
+                            <xsl:when test="$GetErrorCodeByBackendErrorCode-1/Output/errorCode!=&quot;ESB000006&quot;">
+                                <errorCode>
+                                    <xsl:value-of select="$GetErrorCodeByBackendErrorCode-1/Output/errorCode"/>
+                                </errorCode>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <errorCode>
+                                    <xsl:value-of select="&quot;ZPU000015&quot;"/>
+                                </errorCode>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="JDBCTimedOutException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>781</pd:x>
+            <pd:y>1080</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000016&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="GetErrorCodeByBackendErrorCode-1">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>721</pd:x>
+            <pd:y>1001</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/GetErrorCodeByBackendErrorCode.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <backendName>
+                        <xsl:value-of select="&quot;ZPUE_ORA&quot;"/>
+                    </backendName>
+                    <backendErrorCode>
+                        <xsl:value-of select="if (contains($Start/Input/pfx:errorReport,&quot;ORA-&quot;))&#xA;then (substring(concat(&quot;ORA-&quot;,substring-after(tib:render-xml($Start/Input/pfx:errorReport),&quot;ORA-&quot;)),1,9))&#xA;else&#xA;&quot;&quot;"/>
+                    </backendErrorCode>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SendFailed">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>785</pd:x>
+            <pd:y>1150</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000011&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="UnknownHost">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>781</pd:x>
+            <pd:y>1242</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000010&quot;"/>
+                        </errorCode>
+                        <errorMessage>
+                            <xsl:value-of select="$ErrorDetails/ErrorDetails/mappingError/errorMessage"/>
+                        </errorMessage>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="BindException">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>796</pd:x>
+            <pd:y>1355</pd:y>
+            <config>
+                <variableName>ErrorDetails</variableName>
+            </config>
+            <pd:inputBindings>
+                <xsl:variable name="ErrorMessage" select="substring-before(substring-after($Start/Input/pfx:errorReport/pfx:stackTrace, &quot;SAXException:&quot;), &quot;at com.tibco.xml.validation&quot;)"/>
+                <ErrorDetails>
+                    <mappingError>
+                        <errorCode>
+                            <xsl:value-of select="&quot;ZPU000014&quot;"/>
+                        </errorCode>
+                        <xsl:choose>
+                            <xsl:when test="string-length(tib:trim($ErrorMessage))>0">
+                                <errorMessage>
+                                    <xsl:value-of select="$ErrorMessage"/>
+                                </errorMessage>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <errorMessage>
+                                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:msg"/>
+                                </errorMessage>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </mappingError>
+                </ErrorDetails>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="SetError">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1315</pd:x>
+        <pd:y>919</pd:y>
+        <config>
+            <processName>/Core/ExceptionHandler/SetError.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                <errorCode>
+                    <xsl:value-of select="$ErrorDetails/ErrorDetails/mappingError/errorCode"/>
+                </errorCode>
+                <errorInformation>
+                    <xsl:value-of select="$ErrorDetails/ErrorDetails/mappingError/errorMessage"/>
+                </errorInformation>
+                <errorApplication>
+                    <xsl:value-of select="$Start/Input/errorMappingBackend"/>
+                </errorApplication>
+                <serviceName>
+                    <xsl:value-of select="$Start/Input/serviceName"/>
+                </serviceName>
+                <processStack>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:processStack"/>
+                </processStack>
+                <class>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:class"/>
+                </class>
+                <stackTrace>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:stackTrace"/>
+                </stackTrace>
+                <xsl:if test="exists($Start/Input/businessStartTime)">
+                    <xsl:if test="$Start/Input/businessStartTime">
+                        <businessStart>
+                            <xsl:value-of select="$Start/Input/businessStartTime"/>
+                        </businessStart>
+                    </xsl:if>
+                </xsl:if>
+                <xsl:if test="exists($Start/Input/businessEndTime)">
+                    <xsl:if test="$Start/Input/businessEndTime">
+                        <businessEnd>
+                            <xsl:value-of select="$Start/Input/businessEndTime"/>
+                        </businessEnd>
+                    </xsl:if>
+                </xsl:if>
+                <xsl:if test="$Start/Input/parentLogId">
+                    <parentLogId>
+                        <xsl:value-of select="$Start/Input/parentLogId"/>
+                    </parentLogId>
+                </xsl:if>
+                <xsl:if test="$Start/Input/disableTracing">
+                    <disableTracing>
+                        <xsl:value-of select="$Start/Input/disableTracing"/>
+                    </disableTracing>
+                </xsl:if>
+                <xsl:if test="$Start/Input/payload">
+                    <payload>
+                        <xsl:value-of select="$Start/Input/payload"/>
+                    </payload>
+                </xsl:if>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="RethrowException">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1311</pd:x>
+        <pd:y>794</pd:y>
+        <config>
+            <processName>/Core/ExceptionHandler/SetError.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                <errorCode>
+                    <xsl:value-of select="$ErrorDetails/ErrorDetails/errorDetails/pfx2:errorCode"/>
+                </errorCode>
+                <errorInformation>
+                    <xsl:value-of select="$ErrorDetails/ErrorDetails/errorDetails/pfx2:errorInformation"/>
+                </errorInformation>
+                <errorApplication>
+                    <xsl:value-of select="$ErrorDetails/ErrorDetails/errorDetails/pfx2:errorApplication"/>
+                </errorApplication>
+                <serviceName>
+                    <xsl:value-of select="$Start/Input/serviceName"/>
+                </serviceName>
+                <processStack>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:processStack"/>
+                </processStack>
+                <class>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:class"/>
+                </class>
+                <stackTrace>
+                    <xsl:value-of select="$Start/Input/pfx:errorReport/pfx:stackTrace"/>
+                </stackTrace>
+                <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="exists($Start/Input/businessStartTime)">
+                    <xsl:if test="$Start/Input/businessStartTime">
+                        <businessStart>
+                            <xsl:value-of select="$Start/Input/businessStartTime"/>
+                        </businessStart>
+                    </xsl:if>
+                </xsl:if>
+                <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="exists($Start/Input/businessEndTime)">
+                    <xsl:if test="$Start/Input/businessEndTime">
+                        <businessEnd>
+                            <xsl:value-of select="$Start/Input/businessEndTime"/>
+                        </businessEnd>
+                    </xsl:if>
+                </xsl:if>
+                <xsl:if test="$Start/Input/parentLogId">
+                    <parentLogId>
+                        <xsl:value-of select="$Start/Input/parentLogId"/>
+                    </parentLogId>
+                </xsl:if>
+                <xsl:if test="$Start/Input/disableTracing">
+                    <disableTracing>
+                        <xsl:value-of select="$Start/Input/disableTracing"/>
+                    </disableTracing>
+                </xsl:if>
+                <xsl:if test="$Start/Input/payload">
+                    <payload>
+                        <xsl:value-of select="$Start/Input/payload"/>
+                    </payload>
+                </xsl:if>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Debug</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Debug</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>RethrowException</pd:to>
+        <pd:xpathDescription>Exception</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>exists($ErrorDetails/ErrorDetails/errorDetails)</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>SetError</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RethrowException</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetError</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:iconImage>/9j/4AAQSkZJRgABAQEAbgBuAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcG&#xD;
+BwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwM&#xD;
+DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAzADQDASIA&#xD;
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA&#xD;
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3&#xD;
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm&#xD;
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA&#xD;
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx&#xD;
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK&#xD;
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3&#xD;
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/K8q&#xD;
+/bH/AGo9A/ZH+B+r+LNcv9PtHt7acadb3U/kjUbpYJZUt1IBO9/KYAAE9cA9K9Omn8rk9PxNfkP/&#xD;
+AMFw/itfftnftMfDz4I/D2+k1yLT7l5NaTTD9qS0u5LkWa+eFGEMA8wNucAeeN23gnKtU5IXW/Q+&#xD;
+v4H4fhm+aww9d2pRvKb7Rirv77WPAfhV+wp4u/4KCfsy/Fb4+65ceJZvFtkVOhwQJ5setG1iVZuZ&#xD;
+WaWT5UCLtYYdGxvOUH6Jf8ESP2+4f2o/2fY/DfiPV7OTx5odzd+ZaG6klurm0Do63BWRmfYpuFj+&#xD;
+8R8nGOQPnX4+/tp6t/wTq/aM0z9n3wP4ctbPwgz2a28Uc0Ijk+2ybpWKyQSOcyM4O6Tt/CMY4rxF&#xD;
+4I/4dS/8FgfDOsaTaT6B8LPES2lnLKQ0WnRQXURidHmbzOUng88hirYjH3Uw1ctO1Npr0l8+p+58&#xD;
+QYatn+X1MLjEoqcXVwlrX5IRS5PK6adu9z9pI5AwKnoOpzT14QgDoKzfCXiSw8ZeGrDVdLu7e/03&#xD;
+U7aO6tbiFg8c8TqGR1YcFWUggjgitNRtB7V3n8uyi4yaktVuOHSiiigDzD9rL9o3Qv2Xfgdr3i3X&#xD;
+ZrdI7CxuJba3e4jhe/mSCSVYIy5AMjiNgByfbivzx/4N+P2ctS+I3if4g/HDx3YvfavrV4LbTrjU&#xD;
+raTzSzst5PcJuAQq7SQFWUH5o22lR97hP+C2/wC0Tdfto/tS+FvgB4QtZpJfDniCO2vLpWE8E1zc&#xD;
+pbxxufLVnQQmeZHz3JyMgAfrP8FvhrY/Bz4S+HfC+mII7HQdOt7GBRuOI4o1jX7xY52qOpJ9881z&#xD;
+xtOq+y29T9YxNOXDvC0aT0r46zfeNOLuv/A739D8cf8AgsD4aa6/4LO+BbfzR/xNn0Eqcf6sNetF&#xD;
+z2PK5r77/wCCxv7Kdt+0X+wz4jvLHToZPFPhW3j13TrhIHe5zbBndE8vDktE0yKvI3PnGcEeA/8A&#xD;
+BRf9j2L4r/8ABVL4a+MH+KPwj8NrpkmitLoWueIfsmt3fk6hJJ/o9vsPmGTIVMsu5wy8dT+mj26z&#xD;
+acsUmCjIEPoc4FTTpe9U5l8TOziLixUcNktfCyvPDw10a2a0800uh8Pf8EJ/2tY/it+yhpngLXbm&#xD;
+WHxl4BludIntr2WNbp7eBozG3lcOqxpNHDll6xHJyRn7rhO8N1/GvxV/aF8RXH/BJr/gslq3xD/s&#xD;
+q81Dwf4phm1CWO2VlWYXiSM8RllBUMLqAyYVvuqAMDKV+zfhjXbXxR4ftdRsbiG6sr6BLiCeJwyS&#xD;
+oy5VgwJBBBBBHBBq8PO65JbrQ+f8RMlhRxNLN8Kv3OLj7RW2UnrKP/brZp0UUVufnZ+Af/BLf9vD&#xD;
+4Z/sxfHPxv8AEn4oReI9S8WeKAfKbSrVXjRprl5rksm5FG51gK4zjDDjv96p/wAHHnwGCAf2d492&#xD;
+9/8AiWRZH/kX37c18sf8FD/2zfAX7KP7V+vfD3wx+zP8ApdO8NypFcXer+D455rzzLaGVTGI2iCg&#xD;
+M5BzuyNuMHrlJ/wVz/Zw2AN+x38OskYJFlp4BPHb7N0+tebSq+z/AHfOvuZ/Vud8N4XP3SzieW1J&#xD;
+KrGPKo16a5YpJLR2tp6m7+0j+3B+yP8AtQ/tS+Hvi3rtz8bbLxB4bNkbe1sLKySykNrO08e9WV3O&#xD;
+WbDYcAjAGK+no/8Ag48+AkUYUad49+UY/wCQbDx2/wCe3tXyI3/BXP8AZvxz+xz8OyfX7Hp/f62v&#xD;
++felH/BXX9nDBJ/Y7+Hhx3+xaf8A0tjTjWSvaavvszjxfBlPE0qdHEZZXlGmrRTxFLReR0//AAVE&#xD;
+/wCCqfwG/bx/ZvuPDem2PjO28R2t9bX+mXFxapDBG6MUfeVkc4MMkwA2kbiDxjNfS3/BAf8AbRf4&#xD;
++/s5/wDCAXgdtV+GdhbWryfZ/KSSGSS4WFQ247tsUUYJKqScnknNfIJ/4K6/s35A/wCGOvh36/8A&#xD;
+HlYf/ItU/B3/AAXcX4NePdQb4ZfA74YeCPC+roI7q30vSfsuqvtjIjY3ETLE5SV3YBrcgKcY5LEj&#xD;
+XiqntJST6bMvMeEMRisgnkmDy6VPlftIzqVqcuV2V0rPqunc/c4KMUVQ0PVDqOj21wUeMzxLJtYf&#xD;
+Mu4A4PvzRXpWP5dlSlGTi+hLJp1vO254IXY92QE0f2Va/wDPtb/9+xRRVF+0kuon9k2uf+Pa3/79&#xD;
+ij+yrX/n2t/+/YoopXD2k+7F/sq1/wCfa3/79igaXag5+zQf9+xRRQHtJdy0EUDoKKKKkyP/2Q==&#xD;
+</pd:iconImage>
+</pd:ProcessDefinition>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>ProjectPath</name>
+			<value>/opt/workspace/gema_ice_adp/repo/GEMA_ICE_ADP_TEST/</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1505323341986</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

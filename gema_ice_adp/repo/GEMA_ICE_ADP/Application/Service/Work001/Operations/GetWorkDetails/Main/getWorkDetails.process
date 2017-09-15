@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pfx6="http://www.tibco.com/ns/no_namespace_schema_location/Application/ServiceWrapper/Work001/WSDL/IAC9361.wsdl" xmlns:pfx7="http://iac9361.wsbeans.iseries/" xmlns:pfx="http://www.gema.de/ESB/Service/Licensing/TariffMgmt/LicensingTariff-001" xmlns:pfx2="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:ns="http://www.gema.de/ESB/Schema/Licensing/TariffMgmt/LicensingTariff-001" xmlns:pfx3="http://www.gema.de/ESB/Service/FinanceAccnt/AccntReceivable/LicenseeAccount-001" xmlns:pfx4="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:pfx5="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/xmlns/ae2xsd/2002/05/ae/750/basic/functionModules" xmlns:ns4="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" xmlns:ns3="http://www.gema.de/ESB/Schema/FinanceAccnt/AccntReceivable/LicenseeAccount-001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns6="http://www.tibco.com/pe/EngineTypes" xmlns:ns5="http://xmlns.tibco.com/encodings/mime" xmlns:ns8="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns7="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:BW="java://com.tibco.pe.core.JavaCustomXPATHFunctions" xmlns:ns12="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema">
+    <xsd:import namespace="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" schemaLocation="/Interfaces/ESB/Schema/Common/BaseTypes-001.xsd"/>
+    <xsd:import namespace="http://www.gema.de/ESB/Service/FinanceAccnt/AccntReceivable/LicenseeAccount-001" schemaLocation="/Interfaces/ESB/Service/FinanceAccnt/AccntReceivable/LicenseeAccount-001.xsd"/>
+    <xsd:import namespace="http://www.gema.de/ESB/Service/Licensing/TariffMgmt/LicensingTariff-001" schemaLocation="/Interfaces/ESB/Service/Licensing/TariffMgmt/LicensingTariff-001.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/xmlns/ae2xsd/2002/05/ae/750/basic/functionModules" schemaLocation="/AESchemas/ae/750/basic/functionModules.aeschema"/>
+    <xsd:import namespace="http://iac9361.wsbeans.iseries/" schemaLocation="/Application/Shared/iac9361.wsdl"/>
+    <xsd:import namespace="http://www.gema.de/ESB/Service/ICE/Work-001" schemaLocation="/Interfaces/ESB/Service/ICE/Work/Work-001.xsd"/>
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" location="/Interfaces/ESB/Service/ICE/Work/Work-001.wsdl"/>
+    <wsdl:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/Application/ServiceWrapper/Work001/WSDL/IAC9361.wsdl"/>
+    <wsdl:import namespace="http://iac9361.wsbeans.iseries/" location="/Application/Shared/iac9361.wsdl"/>
+    <pd:name>Application/Service/Work001/Operations/GetWorkDetails/Main/getWorkDetails.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="Input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx2:traceIdentifier" minOccurs="0"/>
+                    <xsd:element ref="pfx2:controllObject" minOccurs="0"/>
+                    <xsd:element name="parentLogId" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="serviceName" type="xsd:string"/>
+                    <xsd:element name="businessStart" type="xsd:dateTime"/>
+                    <xsd:element name="businessContext" type="xsd:string"/>
+                    <xsd:element ref="pfx4:GetWorkDetailsRequest"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>38</pd:startX>
+    <pd:startY>167</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$outputOfGroup/pfx4:GetWorkDetailsResponse"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx4:GetWorkDetailsResponse"/>
+    <pd:endX>1824</pd:endX>
+    <pd:endY>178</pd:endY>
+    <pd:errorSchemas>
+        <systemException ref="pfx2:systemException"/>
+        <validationException ref="pfx2:validationException"/>
+        <businessException ref="pfx2:businessException"/>
+    </pd:errorSchemas>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1499364253649</pd:targetNamespace>
+    <pd:group name="IterateOnWorkDetails">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>513</pd:x>
+        <pd:y>13</pd:y>
+        <pd:width>782</pd:width>
+        <pd:height>322</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/Input/pfx4:GetWorkDetailsRequest/ns4:workDetails/ns4:workDetail</pd:over>
+            <pd:iterationElementSlot>currentWorkDetail</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>accumulateResponsesOut</pd:outSlot>
+            <pd:activityOutputName>MapResponse</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>MapRequest</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>MapResponse</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>MapRequest</pd:from>
+            <pd:to>Invoke_IAC9361</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Invoke_IAC9361</pd:from>
+            <pd:to>MapResponse</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Invoke_IAC9361</pd:from>
+            <pd:to>SetError-Sys-7-8</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>error</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Invoke_IAC9361</pd:from>
+            <pd:to>SetError-Sys-09</pd:to>
+            <pd:xpathDescription>SystemError</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>not($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER ='0'
+or
+$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER ='3'
+or
+$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER ='20'
+or
+$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER ='30'
+)</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>MapRequest</pd:from>
+            <pd:to>Validate Error Request SetError</pd:to>
+            <pd:xpathDescription>validationError</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>error</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>MapResponse</pd:from>
+            <pd:to>Validate Error Response SetError</pd:to>
+            <pd:xpathDescription>validationError</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>error</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Invoke_IAC9361</pd:from>
+            <pd:to>Validate Error Response SetError</pd:to>
+            <pd:xpathDescription>MSG_SERVER10</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-52480</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER=10</pd:xpath>
+        </pd:transition>
+        <pd:activity name="MapRequest">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>622</pd:x>
+            <pd:y>115</pd:y>
+            <config>
+                <element ref="pfx7:iac9361"/>
+            </config>
+            <pd:inputBindings>
+                <pfx7:iac9361>
+                    <arg0>
+                        <_IACSESSION>
+                            <_USERNUMBER>
+                                <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/ICE_ADP/Backend/ICE/_USERNUMBER"/>
+                            </_USERNUMBER>
+                            <_USERID>
+                                <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/ICE_ADP/Backend/ICE/_USERID"/>
+                            </_USERID>
+                            <_LANGCODE>
+                                <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/ICE_ADP/Backend/ICE/_LANGCODE"/>
+                            </_LANGCODE>
+                            <_SHWNATCHAR>
+                                <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/ICE_ADP/Backend/ICE/_SHWNATCHAR"/>
+                            </_SHWNATCHAR>
+                        </_IACSESSION>
+                        <_IAC9361I>
+                            <_WORKKEY>
+                                <xsl:value-of select="$currentWorkDetail/ns4:workDetail/@iceWorkKey"/>
+                            </_WORKKEY>
+                            <_REPLIST>
+                                <xsl:value-of select="$CheckWorkDetails/Input/replist"/>
+                            </_REPLIST>
+                            <_WRKREFLIST>
+                                <xsl:value-of select="'N'"/>
+                            </_WRKREFLIST>
+                            <_NOTELIST>
+                                <xsl:value-of select="'N'"/>
+                            </_NOTELIST>
+                        </_IAC9361I>
+                    </arg0>
+                </pfx7:iac9361>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="MapResponse">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>1060</pd:x>
+            <pd:y>111</pd:y>
+            <config>
+                <element ref="pfx4:GetWorkDetailsResponse"/>
+            </config>
+            <pd:inputBindings>
+                <pfx4:GetWorkDetailsResponse>
+                    <xsl:variable name="iac9361L1_caecodeIN_E_SE" select="($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L1[_CAECODE='E' or _CAECODE='SE' ])"/>
+                    <xsl:variable name="IAC9361L1_caecodeNotIn_E_SE_PU" select="($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L1[_CAECODE!='E'and _CAECODE!='SE' and _CAECODE!='PU' ])"/>
+                    <ns4:workDetails>
+                        <xsl:attribute name="xsdVersion">
+                            <xsl:value-of select="$Start/Input/pfx4:GetWorkDetailsRequest/ns4:workDetails/@xsdVersion"/>
+                        </xsl:attribute>
+                        <ns4:workDetail>
+                            <xsl:choose>
+                                <xsl:when test="string-length($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_WORKKEY)>0">
+                                    <xsl:attribute name="iceWorkKey">
+                                        <xsl:value-of select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_WORKKEY"/>
+                                    </xsl:attribute>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="iceWorkKey">
+                                        <xsl:value-of select="$currentWorkDetail/ns4:workDetail/@iceWorkKey"/>
+                                    </xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <ns4:status>
+                                <ns4:errorCode>
+                                    <xsl:value-of select="if(($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER=0) &#xA;or ($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER=3) &#xA;or  ($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER=20))&#xA;then &quot;OK&quot;&#xA;else&#xA;if($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER=30) &#xA;then &quot;NOT_FOUND&quot;&#xA;else&#xA;&quot;SOAPMESSAGE&quot;"/>
+                                </ns4:errorCode>
+                                <xsl:if test="not(($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGTEXT/@xsi:nil=(&quot;true&quot;)) or ($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGTEXT/@xsi:nil=(&quot;1&quot;)))">
+                                    <ns4:errorMessage>
+                                        <xsl:value-of select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGTEXT"/>
+                                    </ns4:errorMessage>
+                                </xsl:if>
+                            </ns4:status>
+                            <ns4:work>
+                                <ns4:workStatusDetails>
+                                    <xsl:if test="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_GEMASTATUS">
+                                        <ns4:registrationStatus>
+                                            <xsl:value-of select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_GEMASTATUS"/>
+                                        </ns4:registrationStatus>
+                                    </xsl:if>
+                                    <xsl:if test="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_GEMADISTRB">
+                                        <ns4:distributility>
+                                            <xsl:value-of select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_GEMADISTRB"/>
+                                        </ns4:distributility>
+                                    </xsl:if>
+                                    <ns4:iceStatus>
+                                        <xsl:value-of select="round($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_WORKSTATUS)"/>
+                                    </ns4:iceStatus>
+                                    <ns4:iceStatusDesc>
+                                        <xsl:value-of select="if($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_WORKSTATUS=1) then &quot;Work Fully Documented&quot;&#xA;else &#xA;if($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361D/_WORKSTATUS=2) then &quot;New Work Registered by Publisher&quot;&#xA;else&#xA;&quot;Un-notified Work&quot;"/>
+                                    </ns4:iceStatusDesc>
+                                    <xsl:if test="count($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L4)>0">
+                                        <ns4:comments>
+                                            <xsl:for-each select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L4/_NOTETEXT">
+                                                <ns4:comment>
+                                                    <xsl:value-of select="."/>
+                                                </ns4:comment>
+                                            </xsl:for-each>
+                                        </ns4:comments>
+                                    </xsl:if>
+                                </ns4:workStatusDetails>
+                                <xsl:if test="count($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L3)>0">
+                                    <ns4:societyKeys>
+                                        <xsl:for-each select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L3">
+                                            <ns4:key>
+                                                <xsl:attribute name="society">
+                                                    <xsl:value-of select="_SOCACRO"/>
+                                                </xsl:attribute>
+                                                <xsl:attribute name="cisac">
+                                                    <xsl:value-of select="_SOCCODE"/>
+                                                </xsl:attribute>
+                                                <xsl:value-of select="_WRKREF"/>
+                                            </ns4:key>
+                                        </xsl:for-each>
+                                    </ns4:societyKeys>
+                                </xsl:if>
+                                <xsl:if test="count($IAC9361L1_caecodeNotIn_E_SE_PU)>0">
+                                    <ns4:interestedParties>
+                                        <xsl:for-each select="$IAC9361L1_caecodeNotIn_E_SE_PU">
+                                            <ns4:interestedParty>
+                                                <xsl:choose>
+                                                    <xsl:when test="current()/_CAECODE!='C'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'COMPOSER'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='CA'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'COMPOSER_AUTHOR'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='A'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'AUTHOR'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='AR'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'ARRANGER'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='SR'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'SUB_ARRANGER'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='AD'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'ADAPTOR'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='SA'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'SUB_AUTHOR'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='TR'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'TRANSLATOR'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="current()/_CAECODE!='PA'">
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'ARTIST'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <xsl:attribute name="roleCode">
+                                                            <xsl:value-of select="'COMPOSER'"/>
+                                                        </xsl:attribute>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                                <xsl:choose>
+                                                    <!--ARTIST-->
+                                                    <xsl:when test="_CAECODE='PA'">
+                                                        <xsl:attribute name="type">
+                                                            <xsl:value-of select="&quot;ARTIST&quot;"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <!--CREATOR-->
+                                                    <xsl:otherwise>
+                                                        <xsl:attribute name="type">
+                                                            <xsl:value-of select="&quot;CREATOR&quot;"/>
+                                                        </xsl:attribute>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                                <xsl:choose>
+                                                    <xsl:when test="../_IAC9361D/_WORKKEY>1000000000">
+                                                        <xsl:attribute name="source">
+                                                            <xsl:value-of select="&quot;DIDAS&quot;"/>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <xsl:attribute name="source">
+                                                            <xsl:value-of select="&quot;ICE&quot;"/>
+                                                        </xsl:attribute>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                                <ns4:part>
+                                                    <xsl:attribute name="type">
+                                                        <xsl:value-of select="&quot;FIRST_NAME&quot;"/>
+                                                    </xsl:attribute>
+                                                    <xsl:value-of select="current()/_FIRSTNAME"/>
+                                                </ns4:part>
+                                                <ns4:part>
+                                                    <xsl:attribute name="type">
+                                                        <xsl:value-of select="&quot;LAST_NAME&quot;"/>
+                                                    </xsl:attribute>
+                                                    <xsl:value-of select="current()/_NAME"/>
+                                                </ns4:part>
+                                                <xsl:if test="not((_IPBASEN/@xsi:nil=(&quot;true&quot;)) or (_IPBASEN/@xsi:nil=(&quot;1&quot;)))">
+                                                    <ns4:ipBaseNumber>
+                                                        <xsl:value-of select="_IPBASEN"/>
+                                                    </ns4:ipBaseNumber>
+                                                </xsl:if>
+                                                <xsl:if test="not((_IPNAMEN/@xsi:nil=(&quot;true&quot;)) or (_IPNAMEN/@xsi:nil=(&quot;1&quot;)))">
+                                                    <ns4:ipNameNumber>
+                                                        <xsl:value-of select="_IPNAMEN"/>
+                                                    </ns4:ipNameNumber>
+                                                </xsl:if>
+                                                <xsl:if test="not((_IPBASEKEY/@xsi:nil=(&quot;true&quot;)) or (_IPBASEKEY/@xsi:nil=(&quot;1&quot;)))">
+                                                    <ns4:iceIpBaseKey>
+                                                        <xsl:value-of select="_IPBASEKEY"/>
+                                                    </ns4:iceIpBaseKey>
+                                                </xsl:if>
+                                                <xsl:if test="not((_IPNAMEKEY/@xsi:nil=(&quot;true&quot;)) or (_IPNAMEKEY/@xsi:nil=(&quot;1&quot;)))">
+                                                    <ns4:iceIpNameKey>
+                                                        <xsl:value-of select="_IPNAMEKEY"/>
+                                                    </ns4:iceIpNameKey>
+                                                </xsl:if>
+                                                <xsl:if test="string-length(current()/_LOCAFFNBR)>0">
+                                                    <ns4:societyIpNumbers>
+                                                        <ns4:societyIpNumber>
+                                                            <ns4:cisac>
+                                                                <xsl:value-of select="current()/_PERFSOCCDE"/>
+                                                            </ns4:cisac>
+                                                            <ns4:name>
+                                                                <xsl:value-of select="current()/_PERFSOCACR"/>
+                                                            </ns4:name>
+                                                            <ns4:ipNumber>
+                                                                <xsl:value-of select="ceiling(number(current()/_LOCAFFNBR))"/>
+                                                            </ns4:ipNumber>
+                                                        </ns4:societyIpNumber>
+                                                    </ns4:societyIpNumbers>
+                                                </xsl:if>
+                                            </ns4:interestedParty>
+                                        </xsl:for-each>
+                                    </ns4:interestedParties>
+                                </xsl:if>
+                                <xsl:if test="count($iac9361L1_caecodeIN_E_SE)>0">
+                                    <ns4:publishers>
+                                        <xsl:for-each select="$iac9361L1_caecodeIN_E_SE">
+                                            <ns4:publisher>
+                                                <xsl:choose>
+                                                    <xsl:when test="_CAECODE='E'">
+                                                        <ns4:type>
+                                                            <xsl:value-of select="&quot;OV&quot;"/>
+                                                        </ns4:type>
+                                                    </xsl:when>
+                                                    <xsl:when test="_CAECODE='SE'">
+                                                        <ns4:type>
+                                                            <xsl:value-of select="&quot;SV&quot;"/>
+                                                        </ns4:type>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <ns4:type>
+                                                            <xsl:value-of select="&quot;OV&quot;"/>
+                                                        </ns4:type>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                                <ns4:name>
+                                                    <xsl:value-of select="_NAME"/>
+                                                </ns4:name>
+                                            </ns4:publisher>
+                                        </xsl:for-each>
+                                    </ns4:publishers>
+                                </xsl:if>
+                                <xsl:if test="count($Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L2)>0">
+                                    <ns4:repertoires>
+                                        <xsl:for-each select="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IAC9361L2">
+                                            <ns4:repertoire>
+                                                <ns4:id>
+                                                    <xsl:value-of select="_REPCODE"/>
+                                                </ns4:id>
+                                                <ns4:name>
+                                                    <xsl:value-of select="_NAME"/>
+                                                </ns4:name>
+                                            </ns4:repertoire>
+                                        </xsl:for-each>
+                                    </ns4:repertoires>
+                                </xsl:if>
+                            </ns4:work>
+                        </ns4:workDetail>
+                    </ns4:workDetails>
+                </pfx4:GetWorkDetailsResponse>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Invoke_IAC9361">
+            <pd:type>com.tibco.plugin.soap.SOAPSendReceiveActivity</pd:type>
+            <pd:resourceType>ae.activities.SOAPSendReceiveUI</pd:resourceType>
+            <pd:x>786</pd:x>
+            <pd:y>112</pd:y>
+            <config>
+                <timeout>%%ICE_ADP/Backend/ICE/TimeOut%%</timeout>
+                <soapAttachmentStyle>SwA</soapAttachmentStyle>
+                <timeoutType>Seconds</timeoutType>
+                <service>pfx7:IAC9361</service>
+                <servicePort>IAC9361ServicesPort</servicePort>
+                <operation>iac9361</operation>
+                <soapAction/>
+                <endpointURL>%%ICE_ADP/Backend/ICE/URL%%</endpointURL>
+                <authScheme>NONE</authScheme>
+                <ns0:ssl xmlns:ns0="http://www.tibco.com/xmlns/aemeta/services/2002">
+                    <ns0:strongCipherSuitesOnly>true</ns0:strongCipherSuitesOnly>
+                    <ns0:cert isRef="true">/ZZ_Testing/.folder</ns0:cert>
+                </ns0:ssl>
+            </config>
+            <pd:inputBindings>
+                <inputMessage>
+                    <xsl:copy-of select="$MapRequest/pfx7:iac9361"/>
+                </inputMessage>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Validate Error Response SetError">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>1064</pd:x>
+            <pd:y>265</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/SetError.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <xsl:choose>
+                        <xsl:when test="$Invoke_IAC9361/outputMessage/pfx7:iac9361Response/return/_IACRETMSGS/_MSGSEVER =&quot;10&quot;">
+                            <errorCode>
+                                <xsl:value-of select="&quot;ICE000011&quot;"/>
+                            </errorCode>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <errorCode>
+                                <xsl:value-of select="&quot;ICE000010&quot;"/>
+                            </errorCode>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <errorInformation>
+                        <xsl:value-of select="concat(&quot;Invalid Request Message for iceWorkKey: &quot;, $currentWorkDetail/ns4:workDetail/@iceWorkKey)"/>
+                    </errorInformation>
+                    <errorApplication>
+                        <xsl:value-of select="&quot;ICE&quot;"/>
+                    </errorApplication>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <xsl:if test="string-length($_error/ns6:ErrorReport/ProcessStack)>0">
+                        <processStack>
+                            <xsl:value-of select="$_error/ns6:ErrorReport/ProcessStack"/>
+                        </processStack>
+                    </xsl:if>
+                    <xsl:if test="string-length($_error/ns6:ErrorReport/Class)>0">
+                        <class>
+                            <xsl:value-of select="$_error/ns6:ErrorReport/Class"/>
+                        </class>
+                    </xsl:if>
+                    <xsl:if test="string-length($_error/ns6:ErrorReport/StackTrace)>0">
+                        <stackTrace>
+                            <xsl:value-of select="$_error/ns6:ErrorReport/StackTrace"/>
+                        </stackTrace>
+                    </xsl:if>
+                    <businessStart>
+                        <xsl:value-of select="$Start/Input/businessStart"/>
+                    </businessStart>
+                    <businessEnd>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </businessEnd>
+                    <xsl:if test="$Start/Input/parentLogId">
+                        <parentLogId>
+                            <xsl:value-of select="$Start/Input/parentLogId"/>
+                        </parentLogId>
+                    </xsl:if>
+                    <disableTracing>
+                        <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing"/>
+                    </disableTracing>
+                    <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                        <payload>
+                            <xsl:value-of select="tib:render-xml($Start/Input/pfx4:GetWorkDetailsRequest, true(), true())"/>
+                        </payload>
+                    </xsl:if>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Validate Error Request SetError">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>589</pd:x>
+            <pd:y>266</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/SetError.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <errorCode>
+                        <xsl:value-of select="&quot;ICE000010&quot;"/>
+                    </errorCode>
+                    <errorInformation>
+                        <xsl:value-of select="concat(&quot;invalid request Message for iceWorkKey: &quot;, $currentWorkDetail/ns4:workDetail/@iceWorkKey)"/>
+                    </errorInformation>
+                    <errorApplication>
+                        <xsl:value-of select="&quot;ICE&quot;"/>
+                    </errorApplication>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <processStack>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/ProcessStack"/>
+                    </processStack>
+                    <class>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/Class"/>
+                    </class>
+                    <stackTrace>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/StackTrace"/>
+                    </stackTrace>
+                    <businessStart>
+                        <xsl:value-of select="$Start/Input/businessStart"/>
+                    </businessStart>
+                    <businessEnd>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </businessEnd>
+                    <xsl:if test="$Start/Input/parentLogId">
+                        <parentLogId>
+                            <xsl:value-of select="$Start/Input/parentLogId"/>
+                        </parentLogId>
+                    </xsl:if>
+                    <disableTracing>
+                        <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing"/>
+                    </disableTracing>
+                    <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                        <payload>
+                            <xsl:value-of select="tib:render-xml($Start/Input/pfx4:GetWorkDetailsRequest, true(), true())"/>
+                        </payload>
+                    </xsl:if>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetError-Sys-7-8">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>719</pd:x>
+            <pd:y>263</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/SetError.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <xsl:choose>
+                        <xsl:when test="exists($_error_Invoke_IAC9361/ActivityErrors/ns7:ActivityTimedOutException)">
+                            <errorCode>
+                                <xsl:value-of select="&quot;ICE000008&quot;"/>
+                            </errorCode>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <errorCode>
+                                <xsl:value-of select="&quot;ICE000007&quot;"/>
+                            </errorCode>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <errorInformation>
+                        <xsl:value-of select="&quot;Contact ICE Administrator&quot;"/>
+                    </errorInformation>
+                    <errorApplication>
+                        <xsl:value-of select="&quot;ICE&quot;"/>
+                    </errorApplication>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <processStack>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/ProcessStack"/>
+                    </processStack>
+                    <class>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/Class"/>
+                    </class>
+                    <stackTrace>
+                        <xsl:value-of select="$_error/ns6:ErrorReport/StackTrace"/>
+                    </stackTrace>
+                    <businessStart>
+                        <xsl:value-of select="$Start/Input/businessStart"/>
+                    </businessStart>
+                    <businessEnd>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </businessEnd>
+                    <xsl:if test="$Start/Input/parentLogId">
+                        <parentLogId>
+                            <xsl:value-of select="$Start/Input/parentLogId"/>
+                        </parentLogId>
+                    </xsl:if>
+                    <disableTracing>
+                        <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing"/>
+                    </disableTracing>
+                    <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                        <payload>
+                            <xsl:value-of select="tib:render-xml($Start/Input/pfx4:GetWorkDetailsRequest, true(), true())"/>
+                        </payload>
+                    </xsl:if>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetError-Sys-09">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>868</pd:x>
+            <pd:y>264</pd:y>
+            <config>
+                <processName>/Core/ExceptionHandler/SetError.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <errorCode>
+                        <xsl:value-of select="&quot;ICE000009&quot;"/>
+                    </errorCode>
+                    <errorInformation>
+                        <xsl:value-of select="concat(&quot;Request failed on ICE side. ICE Message Severity=99 for iceWorkKey: &quot;, $currentWorkDetail/ns4:workDetail/@iceWorkKey)"/>
+                    </errorInformation>
+                    <errorApplication>
+                        <xsl:value-of select="&quot;ICE&quot;"/>
+                    </errorApplication>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <businessStart>
+                        <xsl:value-of select="$Start/Input/businessStart"/>
+                    </businessStart>
+                    <businessEnd>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </businessEnd>
+                    <xsl:if test="$Start/Input/parentLogId">
+                        <parentLogId>
+                            <xsl:value-of select="$Start/Input/parentLogId"/>
+                        </parentLogId>
+                    </xsl:if>
+                    <disableTracing>
+                        <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing"/>
+                    </disableTracing>
+                    <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                        <payload>
+                            <xsl:value-of select="tib:render-xml($Start/Input/pfx4:GetWorkDetailsRequest, true(), true())"/>
+                        </payload>
+                    </xsl:if>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="CheckWorkDetails">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>412</pd:x>
+        <pd:y>167</pd:y>
+        <config>
+            <element>
+                <xsd:element name="Input">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="replist" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <replist>
+                    <xsl:value-of select="if(count($Start/Input/pfx4:GetWorkDetailsRequest/ns4:workDetails/ns4:workDetail)=1) then 'Y'&#xA;else&#xA;'N'"/>
+                </replist>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="LogEnd">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1687</pd:x>
+        <pd:y>177</pd:y>
+        <config>
+            <processName>/Core/Logging/Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <logLevel>
+                        <xsl:value-of select="&quot;I&quot;"/>
+                    </logLevel>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <message>
+                        <xsl:value-of select="concat(&quot;Successful: &quot;,$Start/Input/businessContext)"/>
+                    </message>
+                </Input>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="LogStart">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>146</pd:x>
+        <pd:y>167</pd:y>
+        <config>
+            <processName>/Core/Logging/Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <Input>
+                    <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                    <logLevel>
+                        <xsl:value-of select="&quot;I&quot;"/>
+                    </logLevel>
+                    <serviceName>
+                        <xsl:value-of select="$Start/Input/serviceName"/>
+                    </serviceName>
+                    <message>
+                        <xsl:value-of select="concat(&quot;Started: &quot;,$Start/Input/businessContext)"/>
+                    </message>
+                </Input>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TraceStart">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>280</pd:x>
+        <pd:y>167</pd:y>
+        <config>
+            <processName>/Core/Tracing/TraceInfo.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                <message>
+                    <xsl:value-of select="concat(&quot;Started: &quot;,$Start/Input/businessContext)"/>
+                </message>
+                <serviceName>
+                    <xsl:value-of select="$Start/Input/serviceName"/>
+                </serviceName>
+                <parentLogId>
+                    <xsl:value-of select="$Start/Input/parentLogId"/>
+                </parentLogId>
+                <businessStart>
+                    <xsl:value-of select="$Start/Input/businessStart"/>
+                </businessStart>
+                <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                    <payload>
+                        <xsl:value-of select="tib:render-xml($Start/Input/pfx4:GetWorkDetailsRequest, 0,1)"/>
+                    </payload>
+                </xsl:if>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TraceSuccess">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1542</pd:x>
+        <pd:y>175</pd:y>
+        <config>
+            <processName>/Core/Tracing/TraceSuccess.process</processName>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <xsl:copy-of select="$Start/Input/pfx2:traceIdentifier"/>
+                <message>
+                    <xsl:value-of select="concat(&quot;Successful: &quot;,$Start/Input/businessContext)"/>
+                </message>
+                <serviceName>
+                    <xsl:value-of select="$Start/Input/serviceName"/>
+                </serviceName>
+                <xsl:if test="$Start/Input/parentLogId">
+                    <parentLogId>
+                        <xsl:value-of select="$Start/Input/parentLogId"/>
+                    </parentLogId>
+                </xsl:if>
+                <businessStart>
+                    <xsl:value-of select="$Start/Input/businessStart"/>
+                </businessStart>
+                <businessEnd>
+                    <xsl:value-of select="current-dateTime()"/>
+                </businessEnd>
+                <xsl:if test="$_globalVariables/ns2:GlobalVariables/Core/Tracing/PayloadTracing=&quot;true&quot;">
+                    <payload>
+                        <xsl:value-of select="tib:render-xml($MapResponse/pfx4:GetWorkDetailsResponse/ns4:workDetails, 0,1)"/>
+                    </payload>
+                </xsl:if>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="outputOfGroup">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>1397</pd:x>
+        <pd:y>176</pd:y>
+        <config>
+            <element ref="pfx4:GetWorkDetailsResponse"/>
+        </config>
+        <pd:inputBindings>
+            <pfx4:GetWorkDetailsResponse>
+                <ns4:workDetails>
+                    <xsl:attribute name="xsdVersion">
+                        <xsl:value-of select="$accumulateResponsesOut/AccumulatedOutput/pfx4:GetWorkDetailsResponse[1]/ns4:workDetails/@xsdVersion"/>
+                    </xsl:attribute>
+                    <xsl:for-each select="$accumulateResponsesOut/AccumulatedOutput/pfx4:GetWorkDetailsResponse">
+                        <xsl:copy-of select="ns4:workDetails/ns4:workDetail"/>
+                    </xsl:for-each>
+                </ns4:workDetails>
+            </pfx4:GetWorkDetailsResponse>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>LogEnd</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>LogStart</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LogStart</pd:from>
+        <pd:to>TraceStart</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TraceSuccess</pd:from>
+        <pd:to>LogEnd</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>IterateOnWorkDetails</pd:from>
+        <pd:to>outputOfGroup</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TraceStart</pd:from>
+        <pd:to>CheckWorkDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckWorkDetails</pd:from>
+        <pd:to>IterateOnWorkDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>outputOfGroup</pd:from>
+        <pd:to>TraceSuccess</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:label>
+        <pd:name>Label</pd:name>
+        <pd:description>HowTo adopt MainProcess-Template:</pd:description>
+        <pd:x>186</pd:x>
+        <pd:y>259</pd:y>
+        <pd:width>270</pd:width>
+        <pd:height>40</pd:height>
+        <pd:fontColor>-13421773</pd:fontColor>
+        <pd:color>-13159</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4)</pd:name>
+        <pd:description>1. Configure Input/Output-Schema in Start/End-Activities</pd:description>
+        <pd:x>199</pd:x>
+        <pd:y>317</pd:y>
+        <pd:width>351</pd:width>
+        <pd:height>37</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1)</pd:name>
+        <pd:description>2. Configure TracingActivities: payload</pd:description>
+        <pd:x>554</pd:x>
+        <pd:y>594</pd:y>
+        <pd:width>270</pd:width>
+        <pd:height>40</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (1)</pd:name>
+        <pd:description>4. Configure callRFC for specific used RFC</pd:description>
+        <pd:x>581</pd:x>
+        <pd:y>645</pd:y>
+        <pd:width>325</pd:width>
+        <pd:height>36</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2)</pd:name>
+        <pd:description>3. Configure MapRequestActivity: Input Schema &amp; Mapping</pd:description>
+        <pd:x>589</pd:x>
+        <pd:y>617</pd:y>
+        <pd:width>340</pd:width>
+        <pd:height>31</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (1)</pd:name>
+        <pd:description>5. Configure MapResponseActivity: Input Schema &amp; Mapping</pd:description>
+        <pd:x>604</pd:x>
+        <pd:y>666</pd:y>
+        <pd:width>371</pd:width>
+        <pd:height>31</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (2)</pd:name>
+        <pd:description>7. Configure SetErrorActivity: errorCode &amp; payload</pd:description>
+        <pd:x>611</pd:x>
+        <pd:y>711</pd:y>
+        <pd:width>384</pd:width>
+        <pd:height>32</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (2) (1)</pd:name>
+        <pd:description>8. Configure SetSAPExceptionActivity: payload</pd:description>
+        <pd:x>557</pd:x>
+        <pd:y>730</pd:y>
+        <pd:width>276</pd:width>
+        <pd:height>30</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (2) (1) (1)</pd:name>
+        <pd:description>10. Configure EndActivity: Mapping</pd:description>
+        <pd:x>549</pd:x>
+        <pd:y>773</pd:y>
+        <pd:width>260</pd:width>
+        <pd:height>34</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (2) (1) (2)</pd:name>
+        <pd:description>9. Configure SetTimeOutExceptionActivity: payload/errorInformation</pd:description>
+        <pd:x>653</pd:x>
+        <pd:y>747</pd:y>
+        <pd:width>466</pd:width>
+        <pd:height>31</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (4) (1) (2) (2) (2)</pd:name>
+        <pd:description>6. Configure getErrorCodeActivity: RFCName-Mapping</pd:description>
+        <pd:x>209</pd:x>
+        <pd:y>364</pd:y>
+        <pd:width>382</pd:width>
+        <pd:height>31</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+</pd:ProcessDefinition>

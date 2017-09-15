@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceResource xmlns:wsdl="http://www.gema.de/ESB/Service/ICE/WorkAbstract-001.wsdl" xmlns:pfx="http://www.gema.de/ESB/Service/Base/BaseAbstract-001.wsdl" xmlns:ns="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:ns2="http://xmlns.tibco.com/encodings/mime" xmlns:ns1="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/jms">
+    <ns0:import xmlns:ns0="http://schemas.xmlsoap.org/wsdl/" namespace="http://www.gema.de/ESB/Service/ICE/WorkAbstract-001.wsdl" location="/Interfaces/ESB/Service/ICE/Work/WorkAbstract-001.wsdl"/>
+    <ns0:import xmlns:ns0="http://schemas.xmlsoap.org/wsdl/" namespace="http://www.gema.de/ESB/Service/Base/BaseAbstract-001.wsdl" location="/Interfaces/ESB/Service/Base/BaseAbstract-001.wsdl"/>
+    <config>
+        <class>com.tibco.bw.service.serviceAgent.ServiceServiceAgent</class>
+        <name>Work001</name>
+        <resourceType>service.definition</resourceType>
+        <implType>bw</implType>
+        <groups>
+            <row isDefault="true" groupName="Default"/>
+        </groups>
+        <wsdl namespace="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" embedWsdlComponents="true" embedSchemaComponents="true" embedJndiProperties="false"/>
+        <serviceChange>Thu Sep 14 13:36:30 CEST 2017</serviceChange>
+        <interfaceImpl>
+            <tab>
+                <tabName>WorkPortType</tabName>
+                <tabType>bw</tabType>
+                <config>
+                    <wsdlDetail location="/Interfaces/ESB/Service/ICE/Work/WorkAbstract-001.wsdl" portType="WorkPortType" ns="http://www.gema.de/ESB/Service/ICE/WorkAbstract-001.wsdl"/>
+                    <detail>
+                        <tab>
+                            <tabName>service.definition.impl.tab.label</tabName>
+                            <tabType>impl</tabType>
+                            <config>
+                                <operations>
+                                    <row opName="GetWorkDetails" opImpl="/Application/Service/Work001/Operations/GetWorkDetails/Interface/getWorkDetails_SOAP.process"/>
+                                    <row opName="CreateSkeletonWork" opImpl="/Application/Service/Work001/Operations/CreateSkeletonWork/Simulator/createSkeletonWork_SIM.process"/>
+                                </operations>
+                            </config>
+                        </tab>
+                        <tab>
+                            <tabName>service.definition.ep.tab.label</tabName>
+                            <tabType>ep</tabType>
+                            <config>
+                                <epBindings>
+                                    <row epName="WorkEndpoint" epType="soap">
+                                        <config>
+                                            <epDetail>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.transport.tab.label</tabName>
+                                                    <tabType>transport</tabType>
+                                                    <config>
+                                                        <sharedChannel>/Core/Connection/EMS/SYNC_EMS.sharedjmscon</sharedChannel>
+                                                        <transport>
+                                                            <config>
+                                                                <JMSTo>%%Destinations/Work001/Work%%</JMSTo>
+                                                                <JMSDestinationType>queue</JMSDestinationType>
+                                                                <JMSMessageType>Text</JMSMessageType>
+                                                                <SoapJmsW3cFlag>false</SoapJmsW3cFlag>
+                                                                <targetService/>
+                                                                <useIncomingDeliveryMode>false</useIncomingDeliveryMode>
+                                                                <JMSDeliveryMode>1</JMSDeliveryMode>
+                                                                <JMSAcknowledgementMode>1</JMSAcknowledgementMode>
+                                                                <ApplicationProperties>/Core/Variables/StandardJMSProperties.sharedjmsapp</ApplicationProperties>
+                                                                <ApplicationPropertiesOutMessage/>
+                                                                <JMSMaxSessions>1</JMSMaxSessions>
+                                                                <operations>
+                                                                    <operation name="GetWorkDetails">
+                                                                        <general>
+                                                                            <config>
+                                                                                <JMSDurable>false</JMSDurable>
+                                                                                <JMSDurableName/>
+                                                                            </config>
+                                                                        </general>
+                                                                    </operation>
+                                                                    <operation name="CreateSkeletonWork">
+                                                                        <general>
+                                                                            <config>
+                                                                                <JMSDurable>false</JMSDurable>
+                                                                                <JMSDurableName/>
+                                                                            </config>
+                                                                        </general>
+                                                                    </operation>
+                                                                </operations>
+                                                            </config>
+                                                        </transport>
+                                                    </config>
+                                                </tab>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.details.tab.label</tabName>
+                                                    <tabType>details</tabType>
+                                                    <config>
+                                                        <operationStyle>document</operationStyle>
+                                                        <soapVersion>SOAP 1.1</soapVersion>
+                                                        <soap>
+                                                            <operation name="GetWorkDetails">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/Work001/getWorkDetails</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                                <advanced>
+                                                                    <config>
+                                                                        <opDetail>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.inputAttachments.tab.label</tabName>
+                                                                                <tabType>inputAttachments</tabType>
+                                                                                <config>
+                                                                                    <inputAttachmentBindings/>
+                                                                                    <writeToFile>false</writeToFile>
+                                                                                    <inputPolicy/>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.inputHeaders.tab.label</tabName>
+                                                                                <tabType>inputHeaders</tabType>
+                                                                                <config>
+                                                                                    <inputHeadersMessage>
+                                                                                        <binding>
+                                                                                            <messageName>pfx:traceIdentifier</messageName>
+                                                                                            <partName>TraceIdentifier</partName>
+                                                                                            <bindingDetails>
+                                                                                                <soap.encoding>literal</soap.encoding>
+                                                                                                <soap.header.undescribed>undefined</soap.header.undescribed>
+                                                                                            </bindingDetails>
+                                                                                        </binding>
+                                                                                        <binding>
+                                                                                            <messageName>pfx:controllObject</messageName>
+                                                                                            <partName>ControllObject</partName>
+                                                                                            <bindingDetails>
+                                                                                                <soap.encoding>literal</soap.encoding>
+                                                                                                <soap.header.undescribed>undefined</soap.header.undescribed>
+                                                                                            </bindingDetails>
+                                                                                        </binding>
+                                                                                    </inputHeadersMessage>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.outputAttachments.tab.label</tabName>
+                                                                                <tabType>outputAttachments</tabType>
+                                                                                <config>
+                                                                                    <soapAttachmentStyle>SwA</soapAttachmentStyle>
+                                                                                    <outputAttachmentBindings/>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.outputHeaders.tab.label</tabName>
+                                                                                <tabType>outputHeaders</tabType>
+                                                                                <config>
+                                                                                    <outputHeadersMessage/>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.faultHeaders.tab.label</tabName>
+                                                                                <tabType>faultHeaders</tabType>
+                                                                                <config>
+                                                                                    <soapFaults>
+                                                                                        <faultMessage name="systemESBException">
+                                                                                            <general>
+                                                                                                <config>
+                                                                                                    <faultHeadersMessage/>
+                                                                                                </config>
+                                                                                            </general>
+                                                                                        </faultMessage>
+                                                                                        <faultMessage name="businessESBException">
+                                                                                            <general>
+                                                                                                <config>
+                                                                                                    <faultHeadersMessage/>
+                                                                                                </config>
+                                                                                            </general>
+                                                                                        </faultMessage>
+                                                                                        <faultMessage name="validationESBException">
+                                                                                            <general>
+                                                                                                <config>
+                                                                                                    <faultHeadersMessage/>
+                                                                                                </config>
+                                                                                            </general>
+                                                                                        </faultMessage>
+                                                                                    </soapFaults>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.inputContext.tab.label</tabName>
+                                                                                <tabType>inputContext</tabType>
+                                                                                <config>
+                                                                                    <context>
+                                                                                        <ref>/Core/Variables/StandardOperationHeader.contextResource</ref>
+                                                                                        <exposeSecurityContext>false</exposeSecurityContext>
+                                                                                        <bindings>
+                                                                                            <SOAPHeader>
+                                                                                                <xsl:copy-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$inputMessage/inputMessage/headers/Header.TraceIdentifier/ns:traceIdentifier"/>
+                                                                                                <xsl:copy-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$inputMessage/inputMessage/headers/Header.ControllObject/ns:controllObject"/>
+                                                                                                <JMSHeader>
+                                                                                                    <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="$inputMessage/inputMessage/TransportProperties/JMSHeaders/ns3:JMSMessageID">
+                                                                                                        <JMSMessageId>
+                                                                                                            <xsl:value-of select="$inputMessage/inputMessage/TransportProperties/JMSHeaders/ns3:JMSMessageID"/>
+                                                                                                        </JMSMessageId>
+                                                                                                    </xsl:if>
+                                                                                                </JMSHeader>
+                                                                                                <JMSProperties>
+                                                                                                    <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="$inputMessage/inputMessage/TransportProperties/OtherProperties/ParentLogId">
+                                                                                                        <parentLogID>
+                                                                                                            <xsl:value-of select="$inputMessage/inputMessage/TransportProperties/OtherProperties/ParentLogId"/>
+                                                                                                        </parentLogID>
+                                                                                                    </xsl:if>
+                                                                                                    <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="$inputMessage/inputMessage/TransportProperties/OtherProperties/SoapAction">
+                                                                                                        <soapAction>
+                                                                                                            <xsl:value-of select="$inputMessage/inputMessage/TransportProperties/OtherProperties/SoapAction"/>
+                                                                                                        </soapAction>
+                                                                                                    </xsl:if>
+                                                                                                </JMSProperties>
+                                                                                            </SOAPHeader>
+                                                                                        </bindings>
+                                                                                    </context>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.outputContext.tab.label</tabName>
+                                                                                <tabType>outputContext</tabType>
+                                                                                <config>
+                                                                                    <context>
+                                                                                        <ref/>
+                                                                                    </context>
+                                                                                </config>
+                                                                            </tab>
+                                                                            <tab>
+                                                                                <tabName>soap.service.transport.ui.faultContext.tab.label</tabName>
+                                                                                <tabType>faultContext</tabType>
+                                                                                <config>
+                                                                                    <context>
+                                                                                        <ref/>
+                                                                                    </context>
+                                                                                </config>
+                                                                            </tab>
+                                                                        </opDetail>
+                                                                    </config>
+                                                                </advanced>
+                                                            </operation>
+                                                            <operation name="CreateSkeletonWork">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/Work001/createSkeletonWork</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                        </soap>
+                                                    </config>
+                                                </tab>
+                                            </epDetail>
+                                        </config>
+                                    </row>
+                                </epBindings>
+                            </config>
+                        </tab>
+                    </detail>
+                </config>
+            </tab>
+        </interfaceImpl>
+    </config>
+</serviceResource>

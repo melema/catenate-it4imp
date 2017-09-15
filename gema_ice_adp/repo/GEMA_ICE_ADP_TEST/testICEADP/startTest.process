@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file">
+    <pd:name>testICEADP/startTest.process</pd:name>
+    <pd:startName>TestPoller</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="TestPoller">
+        <pd:type>com.tibco.plugin.file.FileEventSource</pd:type>
+        <pd:resourceType>ae.activities.FileEventSourceResource</pd:resourceType>
+        <pd:x>98</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <pollInterval>5</pollInterval>
+            <createEvent>true</createEvent>
+            <modifyEvent>true</modifyEvent>
+            <deleteEvent>false</deleteEvent>
+            <mode>files-and-directories</mode>
+            <encoding>text</encoding>
+            <sortby>File Name</sortby>
+            <sortorder>descending</sortorder>
+            <fileName>%%Config/ProjectPath%%/testICEADP/input/*.txt</fileName>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>742</pd:endX>
+    <pd:endY>72</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1505317694614</pd:targetNamespace>
+    <pd:activity name="invokeICEADP">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>593</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <processName>/testICEADP/Subprocesses/invokeICEADP.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Parse-Test-XML/input"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read Test File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>257</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="$TestPoller/ns1:EventSourceOuputTextClass/fileInfo/fullName"/>
+                </fileName>
+            </ns:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse Test XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>405</pd:x>
+        <pd:y>68</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term>
+                <xsd:element name="input">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="WorkDetails" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="iceWorkKey" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </term>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Read-Test-File/ns1:ReadActivityOutputTextClass/fileContent/textContent"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Skip Error">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>403</pd:x>
+        <pd:y>220</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>invokeICEADP</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TestPoller</pd:from>
+        <pd:to>Read Test File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read Test File</pd:from>
+        <pd:to>Parse Test XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse Test XML</pd:from>
+        <pd:to>invokeICEADP</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read Test File</pd:from>
+        <pd:to>Skip Error</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-52429</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse Test XML</pd:from>
+        <pd:to>Skip Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-65536</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Skip Error</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="buildear for example-esb" default="" basedir="." xmlns:unless="ant:unless" xmlns:if="ant:if">
+	<!-- $Id: build.xml,v 1.4 2016/10/06 14:10:36 cniehus Exp $ -->
+	<description>
+	Ant build file for building TIBCO specific .ear files and 
+	creating deliveries.
+	</description>
+	
+	<pathconvert property="WORK_DIR" dirsep="/">
+		<path location="${basedir}"/>
+	</pathconvert>
+	
+	<property file="${ENV_PROPERTIES}"/>
+	
+	<!-- environment properties used for all builds -->
+	<property name="app.properties" value="app.properties"/>
+	<property file="${app.properties}"/>
+	<!-- This version may be overridden in ${APPNAME}.build -->
+	<property name="TRA_VERSION" value="@TRA_VERSION@"/>
+	<property name="LOCAL_TRA_HOME" value="${WORK_DIR}/build/etc/tra/${TRA_VERSION}"/>
+	<property name="TRA_HOME" value="${TIBCO_HOME}/tra/${TRA_VERSION}"/>
+	<!-- directory where the generated ear file will be stored -->
+	<property name="build.dir" value="${WORK_DIR}/build"/>
+	<property name="deliveries.dir" value="${WORK_DIR}/deliveries"/>
+	<property name="filealias" value="${build.dir}/filealias.properties"/>
+	<property name="buildear.tra.file" value="${LOCAL_TRA_HOME}/bin/buildear.tra"/>
+	<property name="TAGNAME" value="${APP_NAME}_${VERSION}"/>
+	<property name="versioned.ear.name" value="${TAGNAME}.ear"/>
+	<property name="tibco.dir" value="${build.dir}/etc/.TIBCO/"/>
+	<property name="user_home.dir" value="${build.dir}/etc/"/>
+	<property name="lib.dir" value="${WORK_DIR}/lib"/>
+	
+	<!-- TIBCO buildear relevant parameter -->
+	<property name="buildear" value="${BUILDEAR_CMD}"/>
+	<property name="appmanage" value="${APPMANAGE_CMD}"/>
+	<property name="isUnixOS" value="${IS_UNIX_OS}"/>
+	<property name="buildear.sample.prefix" value="${BUILDEAR_SAMPLE_PREFIX}"/>
+	<chmod file="${buildear}" perm="755"/>
+	<property environment="env"/>
+	
+	<!-- CVS specific variables -->
+	<property name="CVS_ROOT" value="${env.CVS_ROOT}"/>
+	<property name="CVS.compression" value="-z 9"/>
+
+	<!-- set the version control system test properties -->
+	<condition property="useCVS">
+		<equals arg1="${VC_SYSTEM}" arg2="cvs" trim="true"/>
+	</condition>
+	<condition property="useGIT">
+		<equals arg1="${VC_SYSTEM}" arg2="git" trim="true"/>
+	</condition>
+
+	<!-- xslt parmeter -->
+	<property name="xslt.dir" value="${build.dir}/xslt" />
+	<property name="archive.style" value="${xslt.dir}/style.xsl" />
+	<property name="property.style" value="${xslt.dir}/globalvariable.xsl" />
+	<property name="password.style" value="${xslt.dir}/password.xsl" />
+	
+	<condition property="isDEV_MODE">
+		<equals arg1="true" arg2="${DEV_MODE}"/>
+	</condition>
+	
+	<!-- cleans generated artifacts of the last build -->
+	<target name="clean">
+		<delete file="${designer5.prefs.file}"/>
+		<delete file="${buildear.tra.file}"/>
+		<delete dir="${build.dir}/${MODULE}"/>
+	</target>
+	
+	<!-- inits build dir  -->
+	<target name="init" depends="clean">
+	        <mkdir dir="${WORK_DIR}/delivery" />
+	</target>
+	
+	<!-- check if ear exists -->
+	<target name="check" description="checks if arvice was already build">
+		<echo>Check if ${versioned.ear.name} was already build ...</echo>
+		<fail message="Error: ${versioned.ear.name} already build.">
+			<condition>
+				<resourcecount count="1">
+					<fileset id="fs" dir="${build.dir}/generated_deployment_file" includes="${versioned.ear.name}_generated.xml"/>
+				</resourcecount>
+			</condition>
+		</fail>    	
+	</target>
+	
+	<!-- prepares environment for building ear file --> 
+	<target name="prepare.env" description="prepares environment for building ear file" >
+		<copy file="${filealias}.sample" tofile="${filealias}" overwrite="true">
+			<filterset>
+				<filter token="LIB_DIR" value="${lib.dir}"/>
+			</filterset>
+		</copy>
+		<copy file="${buildear.tra.file}.${buildear.sample.prefix}" tofile="${buildear.tra.file}" overwrite="true">
+			<filterset>
+				<filter token="user_home.dir" value="${user_home.dir}"/>
+				<filter token="TIBCO_HOME" value="${TIBCO_HOME}"/>
+			</filterset>
+		</copy>
+		<chmod file="${LOCAL_TRA_HOME}/bin/${buildear}" perm="700"/>
+	</target>
+	
+	<!-- creates a new version of archive file and replaces author and version name -->
+	<target name="create.new.version" depends="init" if="BRANCHNAME" description="creates a new version of archive file">
+		<echo>Setting author ${AUTHOR} and version ${TAGNAME} into ${WORK_DIR}/${REPO_DIR}${ARCHIVE}</echo>
+		
+		<copy file="${WORK_DIR}/${REPO_DIR}${ARCHIVE}" tofile="${WORK_DIR}/${REPO_DIR}${ARCHIVE}.orig"/>
+		<xslt style="${archive.style}" in="${WORK_DIR}/${REPO_DIR}${ARCHIVE}.orig"	out="${WORK_DIR}/${REPO_DIR}${ARCHIVE}">
+			<param name="author" expression="${AUTHOR}"/>
+			<param name="version" expression="${TAGNAME}"/>
+		</xslt>
+		<delete file="${WORK_DIR}/${REPO_DIR}${ARCHIVE}.orig"/>
+		
+		<exec executable="git" dir="${WORK_DIR}" resultproperty="ARCHIVE.state" output="/dev/null" failonerror="false">
+			<arg line="diff --exit-code ${REPO_DIR}${ARCHIVE}"/>
+		</exec>
+		<condition property="modifiedARCHIVE">
+			<equals arg1="${ARCHIVE.state}" arg2="1" trim="true"/>
+		</condition>
+		<antcall if:set="modifiedARCHIVE" target="cvs.commit">
+			<param name="param_DIR_NAME" value="${WORK_DIR}"/>
+			<param name="param_FILE_NAME" value="${REPO_DIR}${ARCHIVE}"/>
+		</antcall>
+		<antcall if:set="modifiedARCHIVE" target="git.add">
+			<param name="param_DIR_NAME" value="${WORK_DIR}"/>
+			<param name="param_FILE_NAME" value="${REPO_DIR}${ARCHIVE}"/>
+		</antcall>
+		<antcall if:set="modifiedARCHIVE" target="git.commit">
+			<param name="param_DIR_NAME" value="${WORK_DIR}"/>
+		</antcall>
+	</target>
+	
+	<!-- builds the ear file on behalf of the configured APP_NAME -->
+	<target name="build.ear" depends="check, create.new.version, prepare.env" description="builds the ear file on behalf of the configured APP_NAME">	
+		<echo>Creating file: ${build.dir}/${versioned.ear.name}</echo>
+		<echo>Using ${LOCAL_TRA_HOME}/bin/${buildear} to create ${build.dir}/${versioned.ear.name} ...</echo>
+		<exec dir="${LOCAL_TRA_HOME}/bin" executable="${LOCAL_TRA_HOME}/bin/${buildear}" inputstring="y" failonerror="true">
+			<arg line="--silent -v  -a ${filealias} -ear ${ARCHIVE} -p ${WORK_DIR}/${REPO_DIR} -o ${build.dir}/${versioned.ear.name}"/>
+		</exec>			
+	</target>
+	
+	<target name="export.ear" depends="check"  description="exports deployment descriptor of the ear file">
+		<exec dir="${TRA_HOME}/bin" executable="${TRA_HOME}/bin/${appmanage}" inputstring="y" failonerror="true">
+			<arg line="-export -ear ${build.dir}/${versioned.ear.name} -out  ${build.dir}/generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</exec>
+		<antcall target="cvs.add">
+			<param name="param_DIR_NAME" value="${build.dir}"/>
+			<param name="param_FILE_NAME" value="generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</antcall>
+		<antcall target="cvs.commit">
+			<param name="param_DIR_NAME" value="${build.dir}"/>
+			<param name="param_FILE_NAME" value="generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</antcall>
+		<antcall target="git.add">
+			<param name="param_DIR_NAME" value="${build.dir}"/>
+			<param name="param_FILE_NAME" value="generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</antcall>
+		<antcall target="git.commit">
+			<param name="param_DIR_NAME" value="${build.dir}"/>
+		</antcall>
+	</target>
+	
+	<target name="compare.xml" description="compares delivered deployment descriptor with generated.">
+		<exec dir="${TRA_HOME}/bin" executable="${TRA_HOME}/bin/${appmanage}" inputstring="y" failonerror="true">
+			<arg line="-export -ear ${build.dir}/${versioned.ear.name} -deployConfig ${build.dir}/repo/${OLD_DESCRIPTOR} -out  ${build.dir}/generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</exec>
+	</target>
+	
+	<target name="export.domain" depends="check" description="exports deployment descriptor from domain">
+		<exec dir="${TRA_HOME}/bin" executable="${TRA_HOME}/bin/${appmanage}" inputstring="y" failonerror="true">
+			<arg line="-export -app ${APP_NAME} -domain ${DOMAIN} -user ${DOMAIN_USER} -pw ${DOMAIN_PASSWORD} -out  ${build.dir}/generated_deployment_file/${versioned.ear.name}_generated.xml"/>
+		</exec>
+	</target>
+	
+	<target name="deployment.validate">
+		<schemavalidate file="${DEPLOYMENT_DESCRIPTOR}">
+			<schema namespace="http://www.tibco.com/xmlns/ApplicationManagement" file="${WORK_DIR}/build/schema/ApplicationManagement.xsd"/>
+		</schemavalidate>
+	</target>
+	
+	<target name="generate.propertyfile">
+		<delete file="${DEPLOYMENT_DESCRIPTOR}.properties"/>
+		<delete file="${DEPLOYMENT_DESCRIPTOR}.password"/>
+		<xslt style="${property.style}" in="${DEPLOYMENT_DESCRIPTOR}"	out="${DEPLOYMENT_DESCRIPTOR}.properties"/>
+		<xslt style="${password.style}" in="${DEPLOYMENT_DESCRIPTOR}"	out="${DEPLOYMENT_DESCRIPTOR}_password.properties"/>
+	</target>
+	
+	<target name="generate.descriptor">
+		<delete file="${build.dir}/repo/${ENV}_${APP_NAME}.xml"/>
+		<delete file="searchresult.txt"/>
+		<filter filtersfile="${build.dir}/repo/${ENV}_${APP_NAME}.properties"/>
+		<filter filtersfile="${build.dir}/repo/${ENV}_${APP_NAME}_password.properties"/>
+		<copy file="${build.dir}/repo/${APP_NAME}.template" tofile="${build.dir}/repo/${ENV}_${APP_NAME}.xml" filtering="true"/>
+		<schemavalidate file="${build.dir}/repo/${ENV}_${APP_NAME}.xml">
+			<schema namespace="http://www.tibco.com/xmlns/ApplicationManagement" file="${WORK_DIR}/build/schema/ApplicationManagement.xsd"/>
+		</schemavalidate>
+		<echo>Environment specific descriptor created and validated successfully</echo>
+		<echo>Number of Placeholder "&gt;@.*@&lt;" found (ignore RESULT=1) :</echo>
+		<exec executable="findstr" output="searchresult.txt">
+			<arg value='"/n"'/>
+			<arg value='"&gt;@.*@&lt;"'/>
+			<arg value="build\repo\${ENV}_${APP_NAME}.xml"/>
+		</exec>
+		<echo/>
+		<concat>
+			<fileset file="searchresult.txt"/> 
+		</concat>
+	</target>
+	
+	<target name="generate.descriptor.linux">
+		<delete file="${build.dir}/repo/${ENV}_${APP_NAME}.xml"/>
+		<delete file="searchresult.txt"/>
+		<filter filtersfile="${build.dir}/repo/${ENV}_${APP_NAME}.properties"/>
+		<filter filtersfile="${build.dir}/repo/${ENV}_${APP_NAME}_password.properties"/>
+		<copy file="${build.dir}/repo/${APP_NAME}.template" tofile="${build.dir}/repo/${ENV}_${APP_NAME}.xml" filtering="true"/>
+		<schemavalidate file="${build.dir}/repo/${ENV}_${APP_NAME}.xml">
+			<schema namespace="http://www.tibco.com/xmlns/ApplicationManagement" file="${WORK_DIR}/build/schema/ApplicationManagement.xsd"/>
+		</schemavalidate>
+		<echo>Environment specific descriptor created and validated successfully</echo>
+		<echo>Number of Placeholder "&gt;@.*@&lt;" found (ignore RESULT=1) :</echo>
+		<exec executable="grep" output="searchresult.txt">
+			<arg value="-n"/>
+			<arg value="&gt;@.*@&lt;"/>
+			<arg value="build/repo/${ENV}_${APP_NAME}.xml"/>
+		</exec>
+		<echo/>
+		<concat>
+			<fileset file="searchresult.txt"/> 
+		</concat>
+	</target>
+
+	<!-- add file into the version control system choosed, based on input parameter -->
+	<target name="cvs.add" if="useCVS" description="add new file using cvs">
+		<echo unless:set="isDEV_MODE">Add to cvs ${param_DIR_NAME}/${param_FILE_NAME}</echo>
+		<exec unless:set="isDEV_MODE" executable="cvs" dir="${param_DIR_NAME}" failonerror="true">
+			<arg line="${CVS.compression} -d ${CVS_ROOT} add -m ${TAGNAME} ${param_FILE_NAME}"/>
+		</exec>
+	</target>
+	<target name="git.add" if="useGIT" description="add new file using git">
+		<echo unless:set="isDEV_MODE">Add to git ${param_DIR_NAME}/${param_FILE_NAME}</echo>
+		<exec unless:set="isDEV_MODE" executable="git" dir="${param_DIR_NAME}" failonerror="true">
+			<arg line="add ${param_FILE_NAME}"/>
+		</exec>
+	</target>
+
+	<!-- commit file in the version control system choosed, based on input parameter -->
+	<target name="cvs.commit" if="useCVS" description="commit file using cvs">
+		<echo unless:set="isDEV_MODE">Check into cvs ${param_DIR_NAME}/${param_FILE_NAME}</echo>
+		<exec unless:set="isDEV_MODE" executable="cvs" dir="${param_DIR_NAME}" failonerror="true">
+			<arg line="${CVS.compression} -d ${CVS_ROOT} commit -m ${TAGNAME} ${param_FILE_NAME}"/>
+		</exec>
+	</target>
+	<target name="git.commit" if="useGIT" description="commit file using git">
+		<echo unless:set="isDEV_MODE">Check into git</echo>
+		<exec unless:set="isDEV_MODE" executable="git" dir="${param_DIR_NAME}" failonerror="true">
+			<arg line="commit -m ${TAGNAME}"/>
+		</exec>
+	</target>
+
+</project>

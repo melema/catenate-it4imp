@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <enterpriseArchive>
+        <sharedArchive name="Shared Archive">
+            <resourceType>shared.archive.resource</resourceType>
+            <authorProperty>genser</authorProperty>
+            <sharedResources>/Core/Java/AliasLibrary.aliaslib</sharedResources>
+            <sharedFiles/>
+            <sharedJarFiles/>
+        </sharedArchive>
+        <processArchive name="Process Archive">
+            <resourceType>process.archive.resource</resourceType>
+            <authorProperty>Catenate</authorProperty>
+            <processProperty>/Application/Startup/Startup.process,/Application/Service/Work001/ServiceAgent/Work001.serviceagent</processProperty>
+        </processArchive>
+        <versionProperty>6</versionProperty>
+        <authorProperty>catenate</authorProperty>
+        <addServiceSettableGvars>true</addServiceSettableGvars>
+        <name>ICE_ADP</name>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
+        <fileLocationProperty>/opt/workspace/gema_ice_adp/build/generated_deployment_file/gema_ice_adp_001.ear</fileLocationProperty>
+    </enterpriseArchive>
+</Repository:repository>

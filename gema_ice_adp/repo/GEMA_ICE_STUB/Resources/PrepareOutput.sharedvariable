@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:pfx="http://iac9361.wsbeans.iseries/">
+    <import namespace="http://iac9361.wsbeans.iseries/" schemaLocation="/WSDL/iac9361.wsdl"/>
+    <name>PrepareOutput</name>
+    <resourceType>ae.shared.sharedVariable</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <persistent>false</persistent>
+        <multi-engine>false</multi-engine>
+        <initialValue>none</initialValue>
+        <xsdString ref="pfx:iac9361Response"/>
+    </config>
+</BWSharedResource>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceResource xmlns:wsdl="http://iac9361.wsbeans.iseries/">
+    <ns0:import xmlns:ns0="http://schemas.xmlsoap.org/wsdl/" namespace="http://iac9361.wsbeans.iseries/" location="/WSDL/iac9361.wsdl"/>
+    <config>
+        <class>com.tibco.bw.service.serviceAgent.ServiceServiceAgent</class>
+        <name>iac9361-service0</name>
+        <resourceType>service.definition</resourceType>
+        <implType>bw</implType>
+        <groups>
+            <row isDefault="true" groupName="Default"/>
+        </groups>
+        <serviceChange>Tue Sep 12 16:32:42 CEST 2017</serviceChange>
+        <wsdl namespace="http://iac9361.wsbeans.iseries/" embedWsdlComponents="true" embedSchemaComponents="true" embedJndiProperties="false"/>
+        <interfaceImpl>
+            <tab>
+                <tabName>IAC9361Services</tabName>
+                <tabType>bw</tabType>
+                <config>
+                    <wsdlDetail location="/WSDL/iac9361.wsdl" portType="IAC9361Services" ns="http://iac9361.wsbeans.iseries/"/>
+                    <detail>
+                        <tab>
+                            <tabName>service.definition.impl.tab.label</tabName>
+                            <tabType>impl</tabType>
+                            <config>
+                                <operations>
+                                    <row opName="iac9361" opImpl="/ICEMainProcess/Main.process"/>
+                                </operations>
+                            </config>
+                        </tab>
+                        <tab>
+                            <tabName>service.definition.ep.tab.label</tabName>
+                            <tabType>ep</tabType>
+                            <config>
+                                <epBindings>
+                                    <row epName="IAC9361ServicesEndpoint0" epType="soap">
+                                        <config>
+                                            <epDetail>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.transport.tab.label</tabName>
+                                                    <tabType>transport</tabType>
+                                                    <config>
+                                                        <sharedChannel>/Resources/Connections/HTTP Connection.sharedhttp</sharedChannel>
+                                                        <transport>
+                                                            <config>
+                                                                <useBasicAuthentication>false</useBasicAuthentication>
+                                                                <httpURI>/wsa800/IAC9361</httpURI>
+                                                            </config>
+                                                        </transport>
+                                                    </config>
+                                                </tab>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.details.tab.label</tabName>
+                                                    <tabType>details</tabType>
+                                                    <config>
+                                                        <operationStyle>document</operationStyle>
+                                                        <soapVersion>SOAP 1.1</soapVersion>
+                                                        <soap>
+                                                            <operation name="iac9361">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction/>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                        </soap>
+                                                    </config>
+                                                </tab>
+                                            </epDetail>
+                                        </config>
+                                    </row>
+                                </epBindings>
+                            </config>
+                        </tab>
+                    </detail>
+                </config>
+            </tab>
+        </interfaceImpl>
+    </config>
+</serviceResource>

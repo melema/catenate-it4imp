@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pfx="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://tibco.com/namespaces/tnt/plugins/soap" xmlns:ns="http://www.gema.de/ESB/Schema/Common/BaseTypes-001" xmlns:pfx3="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:pfx4="http://www.gema.de/ESB/Schema/Mega/WorkDetails-001" xmlns:pfx5="http://www.gema.de/ESB/Service/ICE/WorkConcrete-001.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/ICE/WorkConcrete-001.wsdl" location="/ZZ_Testing/testICEADP/Work001.wsdl"/>
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" location="/testICEADP/Work001.wsdl"/>
+    <pd:name>testICEADP/Subprocesses/invokeICEADP.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="WorkDetails" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="iceWorkKey" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>156</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1505316724544</pd:targetNamespace>
+    <pd:activity name="Invoke ICE ADP">
+        <pd:type>com.tibco.plugin.soap.SOAPSendReceiveActivity</pd:type>
+        <pd:resourceType>ae.activities.SOAPSendReceiveUI</pd:resourceType>
+        <pd:x>285</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <soapAttachmentStyle>SwA</soapAttachmentStyle>
+            <timeoutType>Seconds</timeoutType>
+            <service>pfx:Work001</service>
+            <servicePort>WorkEndpoint</servicePort>
+            <operation>GetWorkDetails</operation>
+            <soapAction>/Work001/getWorkDetails</soapAction>
+            <sharedChannels>
+                <jmsChannel>
+                    <targetService/>
+                    <JMSPriority>4</JMSPriority>
+                    <JMSTimeToLive>0</JMSTimeToLive>
+                    <JMSDeliveryMode>NON_PERSISTENT</JMSDeliveryMode>
+                    <JMSMessageType>Text</JMSMessageType>
+                    <NamingURL>tibjmsnaming://localhost:17222</NamingURL>
+                    <NamingInitialContextFactory>com.tibco.tibjms.naming.TibjmsInitialContextFactory</NamingInitialContextFactory>
+                    <NamingPrincipal>admin</NamingPrincipal>
+                    <NamingCredential>#!fc//uvJcLDJICT3RW9cCoG3csb/TyW1Mn7KovS0VKPw=</NamingCredential>
+                    <ConnectionFactory>ICEADP.reconnectSyncQueueCF</ConnectionFactory>
+                    <JMSTo>Work001.q.sync</JMSTo>
+                    <JMSUserName>admin</JMSUserName>
+                    <JMSPassword>#!vMw4xPDVKbdUcCS3sSZCce2x8ozo41X68gxH1NjTWgQ=</JMSPassword>
+                    <SoapJmsW3cFlag>false</SoapJmsW3cFlag>
+                    <ApplicationPropertiesInMessage>/testICEADP/StandardJMSProperties.sharedjmsapp</ApplicationPropertiesInMessage>
+                </jmsChannel>
+            </sharedChannels>
+        </config>
+        <pd:inputBindings>
+            <inputMessage>
+                <headers>
+                    <Header.TraceIdentifier>
+                        <ns:traceIdentifier>
+                            <ns:bpId>
+                                <xsl:value-of select="1"/>
+                            </ns:bpId>
+                            <ns:bpName>
+                                <xsl:value-of select="&quot;Work1&quot;"/>
+                            </ns:bpName>
+                            <ns:boId>
+                                <ns:name>
+                                    <xsl:value-of select="&quot;A&quot;"/>
+                                </ns:name>
+                                <ns:value>
+                                    <xsl:value-of select="&quot;A&quot;"/>
+                                </ns:value>
+                            </ns:boId>
+                            <ns:callingApp>
+                                <xsl:value-of select="&quot;TEST&quot;"/>
+                            </ns:callingApp>
+                            <ns:initiator>
+                                <xsl:value-of select="&quot;TEST&quot;"/>
+                            </ns:initiator>
+                        </ns:traceIdentifier>
+                    </Header.TraceIdentifier>
+                    <Header.ControllObject>
+                        <ns:controllObject>
+                            <ns:timeOut_s>
+                                <xsl:value-of select="20"/>
+                            </ns:timeOut_s>
+                            <ns:transactionId>
+                                <xsl:value-of select="tib:timestamp()"/>
+                            </ns:transactionId>
+                        </ns:controllObject>
+                    </Header.ControllObject>
+                </headers>
+                <pfx2:_applicationProperties>
+                    <BPID>
+                        <xsl:value-of select="1"/>
+                    </BPID>
+                    <BPName>
+                        <xsl:value-of select="&quot;Work1&quot;"/>
+                    </BPName>
+                    <CallingApp>
+                        <xsl:value-of select="&quot;Test&quot;"/>
+                    </CallingApp>
+                    <Initiator>
+                        <xsl:value-of select="&quot;Test&quot;"/>
+                    </Initiator>
+                    <ParentLogId>
+                        <xsl:value-of select="&quot;Test&quot;"/>
+                    </ParentLogId>
+                </pfx2:_applicationProperties>
+                <pfx3:GetWorkDetailsRequest>
+                    <pfx4:workDetails>
+                        <xsl:attribute name="xsdVersion">
+                            <xsl:value-of select="1"/>
+                        </xsl:attribute>
+                        <xsl:for-each select="$Start/input/WorkDetails">
+                            <pfx4:workDetail>
+                                <xsl:attribute name="iceWorkKey">
+                                    <xsl:value-of select="iceWorkKey"/>
+                                </xsl:attribute>
+                            </pfx4:workDetail>
+                        </xsl:for-each>
+                    </pfx4:workDetails>
+                </pfx3:GetWorkDetailsRequest>
+            </inputMessage>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Invoke ICE ADP</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Invoke ICE ADP</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

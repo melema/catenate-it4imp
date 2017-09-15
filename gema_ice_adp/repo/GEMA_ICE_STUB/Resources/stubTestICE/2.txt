@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+		<ns0:iac9361Response xmlns:ns0 = "http://iac9361.wsbeans.iseries/">
+			<return>
+				<_IACRESLIST>
+					<_RETNOOFROW>2</_RETNOOFROW>
+				</_IACRESLIST>
+				<_IACRETMSGS>
+					<_MSGSEVER>0</_MSGSEVER>
+					<_MSGTEXT>information for severtiy codes</_MSGTEXT>
+				</_IACRETMSGS>
+				<_IAC9361D>
+					<_WORKKEY>2</_WORKKEY>
+					<_WORKSTATUS>1</_WORKSTATUS>
+				</_IAC9361D>
+				<_IAC9361L1>
+					<_NAME>val</_NAME>
+					<_FIRSTNAME>valerio</_FIRSTNAME>
+					<_CAECODE>A</_CAECODE>
+				</_IAC9361L1>
+				<_IAC9361L2>
+					<_REPCODE>codiceDelRepository</_REPCODE>
+					<_NAME>nomeDelRepository</_NAME>
+				</_IAC9361L2>
+			</return>
+		</ns0:iac9361Response>
+

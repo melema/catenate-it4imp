@@ -1,0 +1,119 @@
+#
+# Copyright (c) 2001-2008 TIBCO Software Inc.
+# All Rights Reserved.
+#
+# This software is the confidential and proprietary information of
+# TIBCO Software Inc.
+#
+# $Id: buildear.tra.windows.sample,v 1.1.1.1 2013/09/18 14:51:40 genser Exp $
+#
+
+#============================================== 
+# This tra file depends on the designer.tra changes
+# should be specified there.
+#
+# *** Do NOT modify beyond this line ***
+#============================================== 
+
+#============================================== 
+# Lines in this section are for backward compatibility and
+# their contents should be ignored
+#============================================== 
+tibco.env.PSP ;
+tibco.env.TIB_HOME @TIBCO_HOME@
+tibco.env.JVM_LIB_DIR @TIBCO_HOME@/tibcojre64/1.8.0/bin/server
+tibco.env.JVM_LIB_SERVER_DIR @TIBCO_HOME@/tibcojre64/1.8.0/bin/server
+tibco.env.JVM_LIB_PATH @TIBCO_HOME@/tibcojre64/1.8.0/bin/server/jvm.dll
+tibco.env.RV_HOME @TIBCO_HOME@/tibrv/8.4
+tibco.env.TIB_JAVA_HOME @TIBCO_HOME@/tibcojre64/1.8.0
+tibco.env.TPCL_HOME @TIBCO_HOME@/tpcl/5.10
+tibco.env.DESIGNER_HOME @TIBCO_HOME@/designer/5.10
+tibco.env.TRA_HOME @TIBCO_HOME@/tra/5.10
+tibco.env.HAWK_HOME @TIBCO_HOME@/hawk/5.2
+tibco.env.TRA_APPEND_VERSION 5.10
+
+## Specifies the initial Java heap size to allocate
+tibco.env.HEAP_SIZE 256M
+
+## add BW and adapters' custom paths
+
+## this will be prepended to tibco.env.PATH
+tibco.env.CUSTOM_PATH %HAWK_HOME%/bin
+
+## this will be prepended to tibco.class.path.extended
+tibco.env.CUSTOM_CP_EXT %TRA_HOME%/hotfix/lib;@TIBCO_HOME@/bw/5.13/hotfix/lib;%TPCL_HOME%/lib/mail.jar;%TRA_HOME%/lib/TIBCrypt.jar;%TPCL_HOME%/lib/httpclient_3.0;%HAWK_HOME%/lib;%HAWK_HOME%/lib/compat;@TIBCO_HOME@/bw/5.13/lib;@TIBCO_HOME@/bw/5.13/lib/palettes;%TPCL_HOME%/uddi4j/lib/uddi4j.jar;@TIBCO_HOME@/bw/plugins/lib;@TIBCO_HOME@/bw/plugins/lib/palettes
+
+## this will be prepended to java.property.palettePath
+tibco.env.CUSTOM_PALETTE_PATH @TIBCO_HOME@/bw/5.13/lib/palettes;@TIBCO_HOME@/bw/plugins/lib/palettes
+
+## this will be prepended to tibco.env.LD_LIBRARY_PATH,
+## tibco.env.SHLIB_PATH, tibco.env.LIBPATH
+tibco.env.CUSTOM_LIB_PATH %JVM_LIB_SERVER_DIR%;%JVM_LIB_DIR%
+ 
+#
+# Specifies the remaining command line arguments to pass into the application
+#   -d : to activate the debug info dump
+#   -help : to print a list of acceptable command line arguments
+#application.args -d
+ 
+#============================================== 
+# *** Do NOT modify beyond this line ***
+#============================================== 
+ 
+# Set PATH
+tibco.env.PATH %RV_HOME%/lib/64;%RV_HOME%/bin;%CUSTOM_PATH%;%DESIGNER_HOME%/hotfix/bin;%DESIGNER_HOME%/bin;%TRA_HOME%/hotfix/bin;%TRA_HOME%/bin;%TRA_HOME%/hotfix/icjava/6.2/bin;%TRA_HOME%/icjava/6.2/bin;%TRA_HOME%/hotfix/icjava/6.2/lib;%TRA_HOME%/icjava/6.2/lib;%TPCL_HOME%/bin;%TPCL_HOME%/tomcat/bin;/usr/bin;%TIB_JAVA_HOME%/bin;%PATH%
+
+# Set LIBRARY PATH
+tibco.env.LD_LIBRARY_PATH %TPCL_HOME%/lib/httpclient_3.0;%HAWK_HOME%/bin;%RV_HOME%/lib/64;%CUSTOM_LIB_PATH%;%TRA_HOME%/hotfix/lib;%TRA_HOME%/lib;%TRA_HOME%/hotfix/icjava/6.2/lib;%TRA_HOME%/icjava/6.2/lib;%TPCL_HOME%/lib;%RV_HOME%/lib;%JVM_LIB_SERVER_DIR%;%JVM_LIB_DIR%;%LD_LIBRARY_PATH%
+
+tibco.env.SHLIB_PATH %TPCL_HOME%/lib/httpclient_3.0;%HAWK_HOME%/bin;%RV_HOME%/lib/64;%CUSTOM_LIB_PATH%;%TRA_HOME%/hotfix/lib;%TRA_HOME%/lib;%TRA_HOME%/hotfix/icjava/6.2/lib;%TRA_HOME%/icjava/6.2/lib;%TPCL_HOME%/lib;%RV_HOME%/lib;%JVM_LIB_SERVER_DIR%;%JVM_LIB_DIR%;%SHLIB_PATH%
+
+tibco.env.LIBPATH %RV_HOME%/lib/64;%CUSTOM_LIB_PATH%;%TRA_HOME%/hotfix/lib;%TRA_HOME%/lib;%TRA_HOME%/hotfix/icjava/6.2/lib;%TRA_HOME%/icjava/6.2/lib;%TPCL_HOME%/lib;%RV_HOME%/lib;%JVM_LIB_SERVER_DIR%;%JVM_LIB_DIR%;%LIBPATH%
+
+tibco.env.DYLD_LIBRARY_PATH 
+%RV_HOME%/lib/64:%CUSTOM_LIB_PATH%:%TRA_HOME%/hotfix/lib:%TRA_HOME%/lib:%TRA_HOME%/hotfix/icjava/6.2/lib:%TRA_HOME%/icjava/6.2/lib:%TPCL_HOME%/lib:%RV_HOME%/lib:%JVM_LIB_SERVER_DIR%:%JVM_LIB_DIR%:%DYLD_LIBRARY_PATH%
+
+# Set CLASS PATH
+tibco.env.STD_CP_EXT %TPCL_HOME%/jviews/6.0;%TRA_HOME%/hotfix/lib;%TRA_HOME%/lib;%TRA_HOME%/lib/palettes;%TRA_HOME%/hotfix/icjava/6.2/lib;%TRA_HOME%/icjava/6.2/lib;%TRA_HOME%/lib/install;%RV_HOME%/lib/tibrvj.jar;%TPCL_HOME%/jdbc;%TPCL_HOME%/tomcat/7/bin;%TPCL_HOME%/tomcat/7/lib;%TPCL_HOME%/tomcat/bin;%TPCL_HOME%/tomcat/common/lib;%TPCL_HOME%/tomcat/server/lib;%TPCL_HOME%/lib;%TIB_JAVA_HOME%/lib/tools.jar;%TRA_HOME%/lib/repository_mappers;%HAWK_HOME%/lib/ext/activation.jar;%TPCL_HOME%/lib/entrust;%RV_HOME%/lib
+ 
+# Set PALETTE PATH
+tibco.env.STD_PALETTE_PATH %TRA_HOME%/hotfix/lib/palettes;%TRA_HOME%/lib/palettes
+
+#
+# Specifies the JVM to be used to launch this application
+java.library %JVM_LIB_PATH%
+
+#
+# Specifies the Java class that contains the main
+java.start.class com.tibco.ae.tools.palettes.archivebuilderpalette.ArchiveProject
+
+#
+# Specifies the main function in invoke
+java.start.method main
+
+#
+# Specifies the classpath and provides for automatic expansion 
+tibco.class.path.extended %CUSTOM_CP_EXT%;%STD_CP_EXT%
+
+#
+# Specifies the initial Java heap size to allocate
+java.heap.size.max %HEAP_SIZE%
+
+#
+# Specifies the default user directory for the application (note, this is different from the property "user.home")
+java.property.user.dir %DESIGNER_HOME%
+
+#
+# Sets the TIBCO_HOME and TIBCO_TRA_VERSION system variables
+java.property.TIBCO_HOME %TIB_HOME%
+java.property.TIBCO_TRA_VERSION %TRA_APPEND_VERSION%
+
+#
+# Specifies the path that the application must search to load palettes
+java.property.palettePath %CUSTOM_PALETTE_PATH%;%STD_PALETTE_PATH%
+
+#
+# Sets the SAX and DOM JAXP factories to use
+java.property.javax.xml.parsers.SAXParserFactory org.apache.xerces.jaxp.SAXParserFactoryImpl
+java.property.javax.xml.parsers.DocumentBuilderFactory org.apache.xerces.jaxp.DocumentBuilderFactoryImpl
+

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://iac9361.wsbeans.iseries/" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://iac9361.wsbeans.iseries/" schemaLocation="/WSDL/iac9361.wsdl"/>
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/ICE/Work-001.wsdl"/>
+    <wsdl:import namespace="http://iac9361.wsbeans.iseries/" location="/WSDL/iac9361.wsdl"/>
+    <pd:name>ICEMainProcess/Main.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="pfx2:iac9361"/>
+    <pd:startX>138</pd:startX>
+    <pd:startY>78</pd:startY>
+    <pd:returnBindings>
+        <pfx2:iac9361Response>
+            <parameters>
+                <xsl:copy-of select="$Output/pfx2:iac9361Response"/>
+            </parameters>
+        </pfx2:iac9361Response>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="pfx2:iac9361Response"/>
+    <pd:endX>914</pd:endX>
+    <pd:endY>72</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables>
+        <Output ref="pfx2:iac9361Response"/>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1504866540164</pd:targetNamespace>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>349</pd:x>
+        <pd:y>79</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/TEST_PATH,&quot;/&quot;, $Start/pfx2:iac9361/parameters/pfx2:iac9361/arg0/_IAC9361I/_WORKKEY,&quot;.txt&quot;)"/>
+                </fileName>
+            </ns:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>555</pd:x>
+        <pd:y>76</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx2:iac9361Response"/>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Read-File/ns1:ReadActivityOutputTextClass/fileContent/textContent"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetOutput">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>726</pd:x>
+        <pd:y>79</pd:y>
+        <config>
+            <variableName>Output</variableName>
+        </config>
+        <pd:inputBindings>
+            <pfx2:iac9361Response>
+                <xsl:copy-of select="$Parse-XML/pfx2:iac9361Response/return"/>
+            </pfx2:iac9361Response>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Set NOT FOUND">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>352</pd:x>
+        <pd:y>225</pd:y>
+        <config>
+            <variableName>Output</variableName>
+        </config>
+        <pd:inputBindings>
+            <pfx2:iac9361Response>
+                <return>
+                    <_IACRETMSGS>
+                        <_MSGSEVER>
+                            <xsl:value-of select="30"/>
+                        </_MSGSEVER>
+                    </_IACRETMSGS>
+                    <_IAC9361D>
+                        <xsl:if test="$Start/pfx2:iac9361/parameters/pfx2:iac9361/arg0/_IAC9361I/_WORKKEY">
+                            <_WORKKEY>
+                                <xsl:copy-of select="$Start/pfx2:iac9361/parameters/pfx2:iac9361/arg0/_IAC9361I/_WORKKEY/@xsi:nil"/>
+                                <xsl:value-of select="$Start/pfx2:iac9361/parameters/pfx2:iac9361/arg0/_IAC9361I/_WORKKEY"/>
+                            </_WORKKEY>
+                        </xsl:if>
+                        <_WORKSTATUS>
+                            <xsl:value-of select="4"/>
+                        </_WORKSTATUS>
+                    </_IAC9361D>
+                </return>
+            </pfx2:iac9361Response>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>SetOutput</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Set NOT FOUND</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-52480</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetOutput</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Set NOT FOUND</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

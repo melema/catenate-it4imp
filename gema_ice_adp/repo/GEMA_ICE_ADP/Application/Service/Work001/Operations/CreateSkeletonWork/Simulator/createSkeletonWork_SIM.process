@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pfx="http://www.gema.de/ESB/Schema/Mega/SkeletonWorkResponse-001" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.gema.de/ESB/Service/ICE/Work-001" xmlns:wsdlFaultPfx="http://www.gema.de/ESB/Service/Base/BaseAbstract-001.wsdl" xmlns:wsdlPfx="http://www.gema.de/ESB/Service/ICE/WorkAbstract-001.wsdl">
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/Base/BaseAbstract-001.wsdl" location="/Interfaces/ESB/Service/ICE/Work/WorkAbstract-001.wsdl"/>
+    <wsdl:import namespace="http://www.gema.de/ESB/Service/ICE/WorkAbstract-001.wsdl" location="/Interfaces/ESB/Service/ICE/Work/WorkAbstract-001.wsdl"/>
+    <pd:name>Application/Service/Work001/Operations/CreateSkeletonWork/Simulator/createSkeletonWork_SIM.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="wsdlPfx:CreateSkeletonWorkRequest"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>65</pd:startY>
+    <pd:returnBindings>
+        <wsdlPfx:CreateSkeletonWorkResponse>
+            <CreateSkeletonWorkResponse>
+                <ns:CreateSkeletonWorkResponse>
+                    <xsl:attribute name="xsdVersion">
+                        <xsl:value-of select="1"/>
+                    </xsl:attribute>
+                    <pfx:status>
+                        <pfx:errorCode>
+                            <xsl:value-of select="'OK'"/>
+                        </pfx:errorCode>
+                    </pfx:status>
+                </ns:CreateSkeletonWorkResponse>
+            </CreateSkeletonWorkResponse>
+        </wsdlPfx:CreateSkeletonWorkResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="wsdlPfx:CreateSkeletonWorkResponse"/>
+    <pd:endX>450</pd:endX>
+    <pd:endY>65</pd:endY>
+    <pd:errorSchemas>
+        <Schema3 wsMsgRef="wsdlFaultPfx:validationESBException"/>
+        <Schema1 wsMsgRef="wsdlFaultPfx:systemESBException"/>
+        <Schema2 wsMsgRef="wsdlFaultPfx:businessESBException"/>
+    </pd:errorSchemas>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1504777095495</pd:targetNamespace>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

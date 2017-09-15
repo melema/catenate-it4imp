@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+		<ns0:iac9361Response xmlns:ns0 = "http://iac9361.wsbeans.iseries/">
+					
+			<return>
+				<_IACRESLIST>
+					<_RETNOOFROW>0</_RETNOOFROW>
+				</_IACRESLIST>
+				<_IACRETMSGS>
+					<_MSGSEVER>0</_MSGSEVER>
+					<_MSGTEXT>error</_MSGTEXT>
+				</_IACRETMSGS>
+				<_IAC9361D>
+					<_WORKKEY>5</_WORKKEY>
+					<_WORKTITLE>ciao 5 worktitle</_WORKTITLE>
+					<_WORKSTATUS>1</_WORKSTATUS>
+				</_IAC9361D>
+				<_IAC9361L1>
+					<_NAME>Doe</_NAME>
+					<_FIRSTNAME>john</_FIRSTNAME>
+					<_CAECODE>PA</_CAECODE>
+				</_IAC9361L1> 
+				<!--_IAC9361L1>
+					<_LOCAFFNBR>4</_LOCAFFNBR>
+					<_NAME>ciao 5 name</_NAME>
+					<_FIRSTNAME>ciao 5 firstname</_FIRSTNAME>
+					<_CAECODE>PU</_CAECODE>
+					<_MECEXCEPT>ciao 5 mecexcept</_MECEXCEPT>
+					<_PERFSOCCDE>perfciao</_PERFSOCCDE>
+					<_PERFSOCACR>socacr ciao</_PERFSOCACR>
+				</_IAC9361L1-->
+				<_IAC9361L2>
+					<_REPCODE>ciao 5 repcode</_REPCODE>
+					<_NAME>ciao 5 name</_NAME>
+				</_IAC9361L2>
+				<_IAC9361L3>
+					<_SOCCODE>P</_SOCCODE>
+					<_SOCACRO>GEMA</_SOCACRO>
+					<_WRKREF>K</_WRKREF>
+				</_IAC9361L3>
+				<_IAC9361L4>
+					<_NOTETEXT>Ciao</_NOTETEXT>
+				</_IAC9361L4>
+			</return>
+		
+		</ns0:iac9361Response>
+

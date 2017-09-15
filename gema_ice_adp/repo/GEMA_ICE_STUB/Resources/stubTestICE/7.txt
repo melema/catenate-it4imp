@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+		<ns0:iac9361Response xmlns:ns0 = "http://iac9361.wsbeans.iseries/">
+					
+			<return>
+				<_IACRESLIST>
+					<_RETNOOFROW>0</_RETNOOFROW>
+				</_IACRESLIST>
+				<_IACRETMSGS>
+					<_MSGSEVER>0</_MSGSEVER>
+					<_MSGTEXT>error</_MSGTEXT>
+				</_IACRETMSGS>
+				<_IAC9361D>
+					<_WORKKEY>7</_WORKKEY>
+					<_WORKTITLE>error</_WORKTITLE>
+					<_WORKSTATUS>1</_WORKSTATUS>
+				</_IAC9361D>
+				<_IAC9361L1>
+					<_NAME>Doe</_NAME>
+					<_FIRSTNAME>john</_FIRSTNAME>
+					<_CAECODE>PA</_CAECODE>
+				</_IAC9361L1>
+				<_IAC9361L1>
+					<_NAME>error</_NAME>
+					<_FIRSTNAME>error</_FIRSTNAME>
+					<_CAECODE>PU</_CAECODE>
+					<_MECEXCEPT>error</_MECEXCEPT>
+				</_IAC9361L1>
+				<_IAC9361L3>
+					<_SOCCODE>P</_SOCCODE>
+					<_SOCACRO>GEMA</_SOCACRO>
+					<_WRKREF>K</_WRKREF>
+				</_IAC9361L3>
+				<_IAC9361L4>
+					<_NOTETEXT>Ciao</_NOTETEXT>
+				</_IAC9361L4>
+			</return>
+		
+		</ns0:iac9361Response>
+
