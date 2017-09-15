@@ -1,0 +1,8 @@
+create factory ICEADP.reconnectSyncQueueCF queue url=tcp://localhost:17222
+commit
+create factory ICEADP.reconnectAsyncTopicCF topic url=tcp://localhost:17222
+commit
+create queue Work001.q.sync.BE store=$sys.nonfailsafe
+commit
+create queue Work001.q.sync store=$sys.nonfailsafe
+commit
